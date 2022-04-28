@@ -28,6 +28,7 @@ class mrManager:
             
     def close(self):
         pass
+        #Deprecated, but keeping in case there is a need to revert to previous version (without streaming export)
         #f = open("testrun.csv", "w", encoding="utf-8")
         #f.write(self.csvString)
         #f.close()
