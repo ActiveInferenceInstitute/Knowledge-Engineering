@@ -28,7 +28,8 @@ def getKws():
         r = reader(fileInfo)
         next(r)
         for row in r:
-            kwlist[row[0]]=""
+            #kwlist[row[0]]=""
+            kwlist[row[0].lower().replace(" ", "")]="" #bugfix 8-1-22
     return kwlist
 
 # getFileInfo pulls paper information from fileInfo.csv and returns a dict
