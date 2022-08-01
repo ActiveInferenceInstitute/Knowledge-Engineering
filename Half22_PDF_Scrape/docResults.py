@@ -42,8 +42,8 @@ class docResults:
         self.countKws()
     def countKws(self):
         for kw in KwList.keys():
-            self.kws.addFullTextCount(kw,(self.fulltext.lower().count(kw.lower().replace(" ",""))))
-            self.kws.addAbstractCount(kw,(self.doc.abstract.lower().count(kw.lower().replace(" ",""))))
+            self.kws.addFullTextCount(kw,(self.fulltext.lower().count(kw)))
+            self.kws.addAbstractCount(kw,(self.doc.abstract.lower().count(kw)))
     def toCSV(self):
         row = self.doc.fileId + ","
         row += self.kws.toCSV()
