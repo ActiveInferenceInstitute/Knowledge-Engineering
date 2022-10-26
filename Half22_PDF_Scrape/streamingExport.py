@@ -2,7 +2,7 @@
 from dataImport import outputFileHeader
 
 # Export Parameters
-ExportID = "3-1-22_2"
+ExportID = input("Insert a Callsign or ID for export files: ")
 ResultsExportFile = ExportID + "-Results.csv"
 LogExportFile = ExportID + "-Log.csv"
 
