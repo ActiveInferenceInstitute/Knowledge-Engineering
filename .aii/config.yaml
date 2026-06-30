@@ -1,0 +1,43 @@
+# AII sidecar — InstituteOS metadata. Schema: instituteos.platform.aii_sidecar
+meta:
+  updated: '2026-06-30'
+repo:
+  name: Knowledge-Engineering
+  slug: knowledge-engineering
+  full_name: ActiveInferenceInstitute/Knowledge-Engineering
+  description: https://zenodo.org/badge/latestdoi/457362490 10.5281/zenodo.7449027
+institute:
+  category: research
+  maturity: released
+  steward: Active Inference Institute
+ecosystem:
+  relations:
+  - repo: ActiveInferenceInstitute/InstituteOS
+    relation: referenced-by
+    note: Federated via the InstituteOS .aii manifest.
+  links:
+    github: https://github.com/ActiveInferenceInstitute/Knowledge-Engineering
+    website: https://www.activeinference.org
+artifacts:
+- path: README.md
+  kind: doc
+  description: Repository overview.
+provenance:
+  license: CC-BY-4.0
+  citation:
+    zenodo: https://zenodo.org/badge/latestdoi/457362490
+    text: Active Inference Institute — Knowledge-Engineering.
+instituteos:
+  tags:
+  - knowledge
+  - engineering
+  - https
+  - zenodo
+  - org
+  - jupyter notebook
+capabilities:
+- notebooks
+tasks:
+  inventory:
+    cmd: git ls-files
+    description: List tracked files.
