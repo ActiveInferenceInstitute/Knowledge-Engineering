@@ -5,7 +5,7 @@ repo:
   name: Knowledge-Engineering
   slug: knowledge-engineering
   full_name: ActiveInferenceInstitute/Knowledge-Engineering
-  description: https://zenodo.org/badge/latestdoi/457362490 10.5281/zenodo.7449027
+  description: Public research-data and exploratory tooling archive for literature analysis, PubMed queries, PDF keyword extraction, ResearchRabbit exports, and an active-inference ontology snapshot.
 institute:
   category: research
   maturity: released
@@ -21,7 +21,31 @@ ecosystem:
 artifacts:
 - path: README.md
   kind: doc
-  description: Repository overview.
+  description: Repository overview and documentation index.
+- path: CONTRIBUTING.md
+  kind: doc
+  description: Public contribution and provenance guidance.
+- path: CITATION.cff
+  kind: metadata
+  description: Machine-readable citation metadata.
+- path: AGENTS.md
+  kind: doc
+  description: Repository conventions for automated contributors.
+- path: Literature_Analysis/PDF_Scrape/README.md
+  kind: doc
+  description: PDF keyword extraction usage and limitations.
+- path: Literature_Analysis/Pubmed_to_Coda/README.md
+  kind: doc
+  description: PubMed notebook usage and provenance.
+- path: Literature_Analysis/ResearchRabbit/README.md
+  kind: doc
+  description: ResearchRabbit export inventory.
+- path: Literature_Analysis/CitationSearch_PublishOrPerish/README.md
+  kind: doc
+  description: Publish-or-Perish export inventory.
+- path: Ontology snapshot/README.md
+  kind: doc
+  description: Ontology snapshot inventory.
 provenance:
   license: CC-BY-4.0
   citation:

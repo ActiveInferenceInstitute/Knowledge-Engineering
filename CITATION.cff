@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite the archived Zenodo record."
+title: "Knowledge-Engineering"
+type: dataset
+authors:
+  - name: "Active Inference Institute"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.7449027"
+    description: "Zenodo archive DOI"
+repository-code: "https://github.com/ActiveInferenceInstitute/Knowledge-Engineering"
+url: "https://doi.org/10.5281/zenodo.7449027"
+license: "CC-BY-4.0"
+keywords:
+  - "active inference"
+  - "free energy principle"
+  - "literature analysis"
+  - "knowledge engineering"
