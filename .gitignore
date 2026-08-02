@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Jupyter auto-save artifacts
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
+
+# PDF_Scrape runtime outputs (written to the script's working directory)
+Literature_Analysis/PDF_Scrape/*-Results.csv
+Literature_Analysis/PDF_Scrape/*-Log.csv
