@@ -4,7 +4,7 @@ Exploratory Python tooling that counts configured keywords in a local PDF corpus
 
 ## Inputs
 
-- `resc/params/keywords.csv` — 335 keyword rows under the `Kw` column. `dataImport.py` lowercases terms and removes spaces before counting.
+- `resc/params/keywords.csv` — 331 keyword rows under the `Kw` column. `dataImport.py` lowercases terms and removes spaces before counting.
 - `resc/params/fileInfo.csv` — 257 paper records with `COGSEC_ID`, `Title`, and `Abstract` columns. IDs are zero-padded to five digits.
 - `resc/pdfList/` — expected PDF directory. It is not committed to this repository.
 
