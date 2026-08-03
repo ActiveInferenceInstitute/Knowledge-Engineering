@@ -22,18 +22,19 @@ class mrManager:
             try:
                 export.appendToResultsCsv(docResults(FileInfoList[key]).toCSV() + "\n")
                 print("---------------\n\nSucceeded: "+key,"\n-------------\n")
-            except:
-                export.appendToLogCsv(key+", failed\n")
+            except Exception as exc:
+                export.appendToLogCsv(key+", failed, "+str(exc)+"\n")
                 print("---------------\n\nFailed: "+key,"\n-------------\n")
-            
+
     def close(self):
         pass
         #Deprecated, but keeping in case there is a need to revert to previous version (without streaming export)
         #f = open("testrun.csv", "w", encoding="utf-8")
         #f.write(self.csvString)
         #f.close()
-            
-        
-m = mrManager()
-m.getKeys()
-m.run()
+
+
+if __name__ == "__main__":
+    m = mrManager()
+    m.getKeys()
+    m.run()

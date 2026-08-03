@@ -33,8 +33,8 @@ python -m pip install pypdf
 
 ## Caveats
 
-- `streamingExport.py` prompts at import time, and `manager.py` runs immediately when imported; use the command above rather than importing these modules interactively.
+- `streamingExport.py` resolves the export callsign lazily: importing the module is safe, and `python manager.py` prompts once for the callsign before writing output files.
 - Keyword normalization removes spaces and searches with substring counts. This can produce matches inside larger words; it is the historical behavior of the script, not a token-aware search.
-- `manager.py` catches all exceptions while processing a document and records only `failed` in the log. Inspect the source and inputs when diagnosing a failure.
+- `manager.py` catches all exceptions while processing a document and records the failure (with the exception message) in the log. Inspect the source and inputs when diagnosing a failure.
 - `utilCSV.py` is an empty placeholder and is not used by the current manager path.
 - `resc/pdfList/` and generated `*-Results.csv`/`*-Log.csv` files are intentionally not part of the committed archive.
