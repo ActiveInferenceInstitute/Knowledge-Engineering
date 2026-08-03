@@ -1,0 +1,36 @@
+# Knowledge-Engineering — Documentation
+
+Documentation home for the Active Inference Institute's Knowledge-Engineering repository: literature-analysis datasets, exploratory tooling, and an ontology snapshot related to active inference and the free energy principle.
+
+This is a documentation hub over a research-data archive — there is no build step or package to install. Start with the guides, then drill into the area READMEs.
+
+## Guides
+
+| Page | What it covers |
+| --- | --- |
+| [Quickstart](quickstart.md) | How to browse the archive, run the PubMed notebook, and run the PDF keyword extractor. |
+| [Data provenance](provenance.md) | Every dataset in the repository: what it is, its format, size, date, and caveats. |
+| [Architecture](architecture.md) | How the components fit together: pipelines, module flow, and cross-references between areas. |
+
+## Reference
+
+| Document | What it covers |
+| --- | --- |
+| [README](../README.md) | Repository overview, contents table, citation, license. |
+| [PDF_Scrape](../Literature_Analysis/PDF_Scrape/README.md) | Keyword-counting tool inputs, invocation, dependencies, caveats. |
+| [Pubmed_to_Coda](../Literature_Analysis/Pubmed_to_Coda/README.md) | PubMed notebook usage, inputs/outputs, provenance. |
+| [ResearchRabbit](../Literature_Analysis/ResearchRabbit/README.md) | ResearchRabbit export inventory. |
+| [CitationSearch_PublishOrPerish](../Literature_Analysis/CitationSearch_PublishOrPerish/README.md) | Publish-or-Perish export inventory. |
+| [Ontology_Snapshot](../Ontology_Snapshot/README.md) | Ontology term and definition snapshots. |
+| [CONTRIBUTING](../CONTRIBUTING.md) | Contribution and provenance guidance. |
+| [CITATION.cff](../CITATION.cff) | Machine-readable citation metadata. |
+| [AGENTS.md](../AGENTS.md) | Repository conventions for automated contributors. |
+
+## Audit state
+
+- [TO-DO](../TO-DO.md) — scoped findings and completion state of the 2026-08-02 documentation pass.
+- [REVIEW_LOG_2026-08-02](../REVIEW_LOG_2026-08-02.md) — dated record of the review and verification.
+
+## Citation
+
+Use the archived Zenodo record: DOI [10.5281/zenodo.7449027](https://doi.org/10.5281/zenodo.7449027). All repository documentation and research artifacts are CC BY 4.0 unless an artifact states otherwise.

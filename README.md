@@ -30,6 +30,10 @@ The notebook uses `pandas` and Biopython's `Bio.Entrez` client. Open `Literature
 
 The PDF scraper expects a local PDF corpus at `Literature_Analysis/PDF_Scrape/resc/pdfList/`, which is not included in this repository. Its parameter files and invocation details are documented in the [PDF_Scrape README](Literature_Analysis/PDF_Scrape/README.md).
 
+## Documentation
+
+The [documentation hub](docs/) provides a [quickstart](docs/quickstart.md), a [data provenance inventory](docs/provenance.md), and an [architecture overview](docs/architecture.md) alongside the area READMEs above.
+
 ## Reproducibility and data provenance
 
 The committed literature files are dated exports and snapshots. Their exact query settings and source metadata are not fully recorded in the repository, so they should not be treated as a continuously updated literature index. Preserve the original files when producing a new analysis and record any new query date, filters, or transformations alongside the result.

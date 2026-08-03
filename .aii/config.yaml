@@ -22,6 +22,18 @@ artifacts:
 - path: README.md
   kind: doc
   description: Repository overview and documentation index.
+- path: docs/index.md
+  kind: doc
+  description: Documentation hub (guides and reference map).
+- path: docs/quickstart.md
+  kind: doc
+  description: Quickstart guide for the notebook and PDF tooling.
+- path: docs/provenance.md
+  kind: doc
+  description: Dataset inventory and provenance notes.
+- path: docs/architecture.md
+  kind: doc
+  description: Pipelines, module flow, and cross-area references.
 - path: CONTRIBUTING.md
   kind: doc
   description: Public contribution and provenance guidance.
