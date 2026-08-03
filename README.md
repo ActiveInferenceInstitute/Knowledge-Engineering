@@ -14,7 +14,7 @@ This is an archive of research inputs and exploratory analysis artifacts rather 
 | [`Literature_Analysis/Pubmed_to_Coda/`](Literature_Analysis/Pubmed_to_Coda/) | A PubMed/NCBI Entrez notebook plus PMID, DOI, and exported article metadata CSVs. |
 | [`Literature_Analysis/ResearchRabbit/`](Literature_Analysis/ResearchRabbit/) | ResearchRabbit graph data, DOI mapping, image export, and the original bundle archive. |
 | [`Literature_Analysis/CitationSearch_PublishOrPerish/`](Literature_Analysis/CitationSearch_PublishOrPerish/) | Publish-or-Perish Google Scholar export in TSV, ODS, and XLSX formats. |
-| [`Ontology snapshot/`](Ontology%20snapshot/) | CSV snapshots of ontology terms and proposed definitions/connections. |
+| [`Ontology_Snapshot/`](Ontology_Snapshot/) | CSV snapshots of ontology terms and proposed definitions/connections. |
 
 ## Quick start
 

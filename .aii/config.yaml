@@ -43,7 +43,7 @@ artifacts:
 - path: Literature_Analysis/CitationSearch_PublishOrPerish/README.md
   kind: doc
   description: Publish-or-Perish export inventory.
-- path: Ontology snapshot/README.md
+- path: Ontology_Snapshot/README.md
   kind: doc
   description: Ontology snapshot inventory.
 provenance:

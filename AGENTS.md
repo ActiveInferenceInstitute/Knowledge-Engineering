@@ -12,7 +12,7 @@ Knowledge-Engineering is a public research-data and exploratory tooling archive.
 - `Literature_Analysis/Pubmed_to_Coda/` — historical PubMed notebook and outputs.
 - `Literature_Analysis/ResearchRabbit/` — dated graph export.
 - `Literature_Analysis/CitationSearch_PublishOrPerish/` — dated citation-search exports.
-- `Ontology snapshot/` — term and proposed-definition CSV exports.
+- `Ontology_Snapshot/` — term and proposed-definition CSV exports.
 
 ## Change rules
 
@@ -20,7 +20,7 @@ Knowledge-Engineering is a public research-data and exploratory tooling archive.
 - Treat committed research exports as historical source artifacts. Do not normalize, deduplicate, or silently regenerate them during unrelated work.
 - Do not add secrets, private paths, private datasets, credentials, or generated local outputs.
 - Do not commit Jupyter checkpoint files or notebook outputs.
-- Preserve the historical `Ontology snapshot/` path unless a deliberate migration includes link compatibility.
+- Migrated the historical `Ontology snapshot/` path (with a space) to `Ontology_Snapshot/` on 2026-08-02; keep the underscore path going forward.
 
 ## Verification
 
