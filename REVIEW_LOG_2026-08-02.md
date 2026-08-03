@@ -54,3 +54,20 @@ All scoped items implemented across four commits (see `TO-DO.md` for per-item re
 - Notebook code cells verified byte-identical after output stripping (script-compared sources before/after; JSON re-validated with `json.tool`).
 - `.aii/config.yaml` parses cleanly (ruby yaml).
 - No test suite exists in this repo; heavy test runs not applicable. PDF_Scrape end-to-end run not executed (requires an interactive input prompt and an uncommitted PDF corpus in `resc/pdfList/`).
+
+## Phase 5 — Comprehensive follow-up (all deferred items closed)
+
+Requested by the repository owner; every item previously deferred in `TO-DO.md` was implemented:
+
+1. **`keywords.csv` dedup + typo fix** (`e3fc7ca`) — removed 4 duplicate rows (exact and case-variant terms) and fixed `Dissisipation` → `Dissipation`. Verified by simulating `dataImport.getKws()` against the old and new files: the normalized keyword dict is identical except the intended `dissipation` key, so runtime behavior is unchanged. Line endings restored to LF (first attempt had introduced CRLF; caught and corrected).
+2. **PDF_Scrape entrypoint hardening** (`5bb023f`) — `streamingExport.py` no longer prompts at import (lazy callsign resolution via `setExportId`/`requestExportId`); `manager.py` runs only under `__main__` and logs failure reason messages. Verified end-to-end: module import produces no prompt, and a full 257-record run via `printf 'TESTRUN\n' | python manager.py` exited 0, wrote `<callsign>-Results.csv`/`-Log.csv`, and logged each missing-PDF failure with its exception message. Test artifacts removed.
+3. **`Ontology snapshot/` → `Ontology_Snapshot/`** (`93deb5c`) — `git mv` rename with history; references updated in README, AGENTS.md, `.aii/config.yaml`, and the area README. Public-path note recorded in the commit and TO-DO.
+4. **Documentation hub** (`2c2660d`) — `docs/index.md` (hub + reference map), `docs/quickstart.md`, `docs/provenance.md` (measured per-dataset inventory), `docs/architecture.md` (pipelines, module flow, cross-area COGSEC_ID and keyword links). README links the hub; `.aii` sidecar registers the pages. Implemented as GitHub-rendered markdown per the no-heavy-toolchain constraint; a generator-based site with CI remains noted in TO-DO for future growth.
+
+### Phase 5 verification
+
+- Link check re-run across all markdown (14 files after the hub + rename): no broken relative links or anchors; the one prior `%20` link is gone (path no longer contains a space).
+- `py_compile` on all six PDF_Scrape scripts in the throwaway venv; full entrypoint run executed (see above).
+- Post-dedup stats measured for the docs: keywords 331 rows, ontology 408 terms, verbatim overlap 314; fileInfo 257 records (IDs 1–300 with gaps), xlsx DOI map 259 IDs, all 257 fileInfo IDs present in the xlsx.
+- `.aii/config.yaml` re-validated (ruby yaml) after artifact-list additions.
+- Push of the full follow-up (`e3fc7ca`..HEAD) to `origin/main` is the final step of this pass.
