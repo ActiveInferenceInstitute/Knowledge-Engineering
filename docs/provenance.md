@@ -65,6 +65,18 @@ CSV snapshots of an ontology vocabulary (committed December 2022; directory rena
 
 314 of the 408 terms appear verbatim (case-sensitive) in the PDF_Scrape keyword list, and the keyword list includes abstract-scope variants of core terms. The definition columns are proposed text in the source export, not a validated ontology release.
 
+Canonical home: the ontology is published from
+[`Active_Inference_Ontology`](https://github.com/ActiveInferenceInstitute/Active_Inference_Ontology),
+whose current content release is v5 (May 25, 2023, 429 terms) with stable
+identities and typed relations. 402 of the 408 terms in this snapshot appear
+verbatim in that release, and the canonical repository also archives the
+[December 12, 2022 snapshot](https://github.com/ActiveInferenceInstitute/Active_Inference_Ontology/tree/main/Archived%20versions/v4%20(12-12-2022%20snapshot))
+of the same 411-row export (an eight-column view; the copy here projects four
+columns) plus the
+[GNN vocabulary bridge](https://github.com/ActiveInferenceInstitute/Active_Inference_Ontology/tree/main/GNN)
+for `ActInfOntologyAnnotation` labels. Use the canonical repository for current
+terms, definitions, and identifiers.
+
 ## Reproducibility guidance
 
 - Treat every export above as a dated snapshot. Record query date, filters, and transformations when generating replacements.

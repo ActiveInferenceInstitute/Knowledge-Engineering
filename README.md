@@ -14,7 +14,7 @@ This is an archive of research inputs and exploratory analysis artifacts rather 
 | [`Literature_Analysis/Pubmed_to_Coda/`](Literature_Analysis/Pubmed_to_Coda/) | A PubMed/NCBI Entrez notebook plus PMID, DOI, and exported article metadata CSVs. |
 | [`Literature_Analysis/ResearchRabbit/`](Literature_Analysis/ResearchRabbit/) | ResearchRabbit graph data, DOI mapping, image export, and the original bundle archive. |
 | [`Literature_Analysis/CitationSearch_PublishOrPerish/`](Literature_Analysis/CitationSearch_PublishOrPerish/) | Publish-or-Perish Google Scholar export in TSV, ODS, and XLSX formats. |
-| [`Ontology_Snapshot/`](Ontology_Snapshot/) | CSV snapshots of ontology terms and proposed definitions/connections. |
+| [`Ontology_Snapshot/`](Ontology_Snapshot/) | December 2022 export of the ontology vocabulary: 408 terms and proposed definitions. See [Canonical ontology home](#canonical-ontology-home) for the current release. |
 
 ## Quick start
 
@@ -39,6 +39,24 @@ The [documentation hub](docs/) provides a [quickstart](docs/quickstart.md), a [d
 The committed literature files are dated exports and snapshots. Their exact query settings and source metadata are not fully recorded in the repository, so they should not be treated as a continuously updated literature index. Preserve the original files when producing a new analysis and record any new query date, filters, or transformations alongside the result.
 
 The PubMed notebook queries NCBI's public Entrez API and writes `FEP_ActInf.csv`. NCBI service usage should follow the current [Entrez documentation](https://www.ncbi.nlm.nih.gov/books/NBK25497/).
+
+## Canonical ontology home
+
+The ontology snapshot in this repository is historical evidence. The ontology
+itself is published from
+[`Active_Inference_Ontology`](https://github.com/ActiveInferenceInstitute/Active_Inference_Ontology),
+which holds the current v5 content release (May 25, 2023, 429 terms) with stable
+identities and typed relations, archives the
+[December 12, 2022 snapshot](https://github.com/ActiveInferenceInstitute/Active_Inference_Ontology/tree/main/Archived%20versions/v4%20(12-12-2022%20snapshot))
+of the same vocabulary export, and publishes the
+[GNN vocabulary bridge](https://github.com/ActiveInferenceInstitute/Active_Inference_Ontology/tree/main/GNN)
+that resolves `ActInfOntologyAnnotation` labels used by Generalized Notation
+Notation models.
+
+402 of the 408 terms in [`Ontology_Snapshot/`](Ontology_Snapshot/) also appear in
+the v5 release, and the definition columns remain proposed text in the source
+export. Use the canonical repository when you need current terms, definitions,
+or identifiers.
 
 ## Citation
 
