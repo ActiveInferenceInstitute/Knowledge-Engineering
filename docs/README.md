@@ -17,3 +17,5 @@ in each area directory under `Literature_Analysis/` and `Ontology_Snapshot/`.
 
 See the repository [README](../README.md) for the contents table, citation, and
 license, and [AGENTS.md](../AGENTS.md) for contribution and preservation rules.
+
+[broken control link](does-not-exist.md)
