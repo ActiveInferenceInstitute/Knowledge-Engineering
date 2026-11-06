@@ -29,4 +29,7 @@ notebook is not valid JSON, a notebook carries committed outputs, or an
 `docs and scripts`: the log line
 `- docs/README.md: missing link target: does-not-exist.md` is followed by
 `##[error]Process completed with exit code 1.` Reproduce it locally with
-`python .github/scripts/check_archive.py`.
+`python .github/scripts/check_archive.py`. The workflow also runs the pinned GNN
+conformance baseline (`gnn conformance (pinned)`, see `.github/GNN.md`): it
+verifies the parser pin and, as this archive carries no `.gnn.md` model file,
+validates the pinned upstream exemplar.
