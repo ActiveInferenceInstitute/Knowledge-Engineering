@@ -63,7 +63,7 @@ manager.py ──► dataImport.py
    └────────► streamingExport.py ──► dataImport.py
 ```
 
-`docResults.py` also contains an older variant (`docResults1`) that counts spaced and unspaced forms; the current manager path uses `docResults`. `utilCSV.py` is an unused placeholder.
+`utilCSV.py` is an unused placeholder.
 
 Keyword normalization: `dataImport.getKws()` lowercases each term and removes spaces, so the effective match set is the 331 normalized keys; duplicate/case-variant source rows are therefore behaviorally irrelevant (the list was deduplicated for readability on 2026-08-02).
 

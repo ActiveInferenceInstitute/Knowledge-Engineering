@@ -48,18 +48,4 @@ class docResults:
         row = self.doc.fileId + ","
         row += self.kws.toCSV()
         return row
-        
-class docResults1:
-    def __init__(self,doc):
-        self.doc = doc # doc  class - dataImport.docImport 
-        self.kws = kwResults() # load up KwList
-        self.fulltext = extractPDFtext(self.doc.filePath).replace("\n", "") # extract pdf text and scrub new-lines
-        self.countKws()
-    def countKws(self):
-        for kw in KwList.keys():
-            self.kws.addFullTextCount(kw,(self.fulltext.count(kw) + self.fulltext.count(kw.replace(" ",""))))
-            self.kws.addAbstractCount(kw,(self.doc.abstract.count(kw) + self.doc.abstract.count(kw.replace(" ",""))))
-    def toCSV(self):
-        row = self.doc.fileId + ","
-        row += self.kws.toCSV()
-        return row
+
