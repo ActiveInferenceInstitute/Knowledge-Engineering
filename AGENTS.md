@@ -24,6 +24,17 @@ Knowledge-Engineering is a public research-data and exploratory tooling archive.
 
 ## Verification
 
-For Python edits, run `python -m py_compile` on changed scripts. For notebook edits, verify JSON validity and compare code-cell sources before and after output cleanup. For documentation edits, check relative links and ensure dates/status claims match repository contents.
+The repository gate is dependency-free and must pass before publishing:
+
+```bash
+python .github/scripts/check_archive.py
+```
+
+It checks relative Markdown links and anchors, compiles tracked Python files,
+rejects notebooks that are not output-free JSON, and rejects tracked Jupyter
+checkpoints. For Python edits, also run `python -m py_compile` on changed
+scripts. For notebook edits, verify JSON validity and compare code-cell sources
+before and after output cleanup. For documentation edits, check relative links
+and ensure dates/status claims match repository contents.
 
 See `CONTRIBUTING.md` for public contribution guidance and `TO-DO.md` for the current audit state.

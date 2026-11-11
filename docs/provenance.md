@@ -39,7 +39,7 @@ Tooling parameters, not research exports:
 | `resc/params/keywords.csv` | ontology keyword list (deduplicated 2026-08-02; `Dissisipation` typo fixed to `Dissipation`) | 331 rows |
 | `resc/params/fileInfo.csv` | `COGSEC_ID`, `Title`, `Abstract` per paper | 257 rows, IDs 1–300 with gaps |
 
-The PDF corpus at `resc/pdfList/` is intentionally not committed. The `COGSEC_ID` values cross-reference the ResearchRabbit DOI mapping (see below): all 257 fileInfo IDs appear in `ID_DOI_3_28_2022.xlsx` (which additionally lists 2 IDs not present in fileInfo).
+The PDF corpus at `resc/pdfList/` is intentionally not committed. The `COGSEC_ID` values cross-reference the ResearchRabbit DOI mapping (see below): all 257 fileInfo IDs appear in `ID_DOI_3_28_2022.xlsx` (which additionally lists 1 ID, 66, not present in fileInfo).
 
 ## ResearchRabbit
 
@@ -48,7 +48,7 @@ Dated literature-graph export (December 2022):
 | File | Contents |
 | --- | --- |
 | `daniel_friedman_raw_data.json` | ResearchRabbit graph: `nodes` (250) and `edges`; node metadata includes ident (id/pmcid/doi), title, year, journal, abstract, metrics |
-| `ID_DOI_3_28_2022.xlsx` | `COGSEC_ID` → DOI mapping, 259 IDs |
+| `ID_DOI_3_28_2022.xlsx` | `COGSEC_ID` → DOI mapping, 258 IDs |
 | `ResearchRabbit_HALF22_image.png` | exported graph image |
 | `ResearchRabbit-20221212T224443Z-001.zip` | original bundle containing the image, spreadsheet, and JSON |
 

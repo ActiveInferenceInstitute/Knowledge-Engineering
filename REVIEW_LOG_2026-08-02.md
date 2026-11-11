@@ -68,6 +68,6 @@ Requested by the repository owner; every item previously deferred in `TO-DO.md` 
 
 - Link check re-run across all markdown (14 files after the hub + rename): no broken relative links or anchors; the one prior `%20` link is gone (path no longer contains a space).
 - `py_compile` on all six PDF_Scrape scripts in the throwaway venv; full entrypoint run executed (see above).
-- Post-dedup stats measured for the docs: keywords 331 rows, ontology 408 terms, verbatim overlap 314; fileInfo 257 records (IDs 1–300 with gaps), xlsx DOI map 259 IDs, all 257 fileInfo IDs present in the xlsx.
+- Post-dedup stats measured for the docs: keywords 331 rows, ontology 408 terms, verbatim overlap 314; fileInfo 257 records (IDs 1–300 with gaps), xlsx DOI map 258 IDs, all 257 fileInfo IDs present in the xlsx.
 - `.aii/config.yaml` re-validated (ruby yaml) after artifact-list additions.
 - Push of the full follow-up (`e3fc7ca`..HEAD) to `origin/main` is the final step of this pass.
