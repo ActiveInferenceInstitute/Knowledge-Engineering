@@ -30,6 +30,14 @@ The notebook uses `pandas` and Biopython's `Bio.Entrez` client. Open `Literature
 
 The PDF scraper expects a local PDF corpus at `Literature_Analysis/PDF_Scrape/resc/pdfList/`, which is not included in this repository. Its parameter files and invocation details are documented in the [PDF_Scrape README](Literature_Analysis/PDF_Scrape/README.md).
 
+### Verify the archive
+
+The repository's own gate is dependency-free. It fails when a relative Markdown link does not resolve, a tracked Python file does not compile, a notebook is invalid JSON or carries committed cell outputs, or a Jupyter checkpoint file is tracked:
+
+```bash
+python .github/scripts/check_archive.py
+```
+
 ## Documentation
 
 The [documentation hub](docs/) provides a [quickstart](docs/quickstart.md), a [data provenance inventory](docs/provenance.md), and an [architecture overview](docs/architecture.md) alongside the area READMEs above.
@@ -78,3 +86,11 @@ See [`CONTRIBUTING.md`](CONTRIBUTING.md). In particular, do not commit credentia
 ## Audit trail
 
 The current documentation review is recorded in [`REVIEW_LOG_2026-08-02.md`](REVIEW_LOG_2026-08-02.md), with outstanding work in [`TO-DO.md`](TO-DO.md).
+
+## InstituteOS sidecar
+
+This repository carries a committed [`.aii/`](.aii/README.md) sidecar with curated
+InstituteOS metadata (`aii-sidecar/v1`): category, maturity, ecosystem relations,
+key artifacts, provenance, and portable tasks. It is read by
+[InstituteOS](https://github.com/ActiveInferenceInstitute/InstituteOS) tooling and
+does not affect the project's build or runtime.

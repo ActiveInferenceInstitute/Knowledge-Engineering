@@ -9,8 +9,13 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   docs-and-scripts:
+    timeout-minutes: 60
     name: docs and scripts
     runs-on: ubuntu-latest
     steps:

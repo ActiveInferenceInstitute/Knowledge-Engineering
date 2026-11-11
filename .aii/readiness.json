@@ -1,0 +1,11 @@
+{
+  "schema": "aii-readiness/v1",
+  "repo": "ActiveInferenceInstitute/Knowledge-Engineering",
+  "tier": "python-library",
+  "standard_version": "1.0.0",
+  "baseline": {
+    "commit": "cc3c707600bf7ec4306a095525818454d3ddd680",
+    "measured_at": "2026-11-10"
+  },
+  "waivers": []
+}
