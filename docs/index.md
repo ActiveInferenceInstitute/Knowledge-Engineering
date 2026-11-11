@@ -17,6 +17,7 @@ This is a documentation hub over a research-data archive — there is no build s
 | Document | What it covers |
 | --- | --- |
 | [README](../README.md) | Repository overview, contents table, citation, license. |
+| [Literature_Analysis](../Literature_Analysis/README.md) | Folder-level guide to the four literature-analysis subareas and their cross-references. |
 | [PDF_Scrape](../Literature_Analysis/PDF_Scrape/README.md) | Keyword-counting tool inputs, invocation, dependencies, caveats. |
 | [Pubmed_to_Coda](../Literature_Analysis/Pubmed_to_Coda/README.md) | PubMed notebook usage, inputs/outputs, provenance. |
 | [ResearchRabbit](../Literature_Analysis/ResearchRabbit/README.md) | ResearchRabbit export inventory. |

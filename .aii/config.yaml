@@ -46,6 +46,9 @@ artifacts:
 - path: AGENTS.md
   kind: doc
   description: Repository conventions for automated contributors.
+- path: Literature_Analysis/README.md
+  kind: doc
+  description: Folder-level guide to the four literature-analysis subareas.
 - path: Literature_Analysis/PDF_Scrape/README.md
   kind: doc
   description: PDF keyword extraction usage and limitations.

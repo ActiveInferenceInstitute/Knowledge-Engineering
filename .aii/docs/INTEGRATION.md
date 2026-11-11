@@ -44,6 +44,7 @@
 | `CONTRIBUTING.md` | `doc` | Public contribution and provenance guidance. |
 | `CITATION.cff` | `metadata` | Machine-readable citation metadata. |
 | `AGENTS.md` | `doc` | Repository conventions for automated contributors. |
+| `Literature_Analysis/README.md` | `doc` | Folder-level guide to the four literature-analysis subareas. |
 | `Literature_Analysis/PDF_Scrape/README.md` | `doc` | PDF keyword extraction usage and limitations. |
 | `Literature_Analysis/Pubmed_to_Coda/README.md` | `doc` | PubMed notebook usage and provenance. |
 | `Literature_Analysis/ResearchRabbit/README.md` | `doc` | ResearchRabbit export inventory. |

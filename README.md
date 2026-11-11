@@ -6,6 +6,19 @@ A public research-data and exploratory tooling archive from the Active Inference
 
 This is an archive of research inputs and exploratory analysis artifacts rather than a packaged Python library. The data files are preserved as collected snapshots; scripts and notebooks may require adjustment for current APIs and dependencies.
 
+## Table of contents
+
+- [Contents](#contents)
+- [Quick start](#quick-start)
+- [Documentation](#documentation)
+- [Reproducibility and data provenance](#reproducibility-and-data-provenance)
+- [Canonical ontology home](#canonical-ontology-home)
+- [Citation](#citation)
+- [License](#license)
+- [Contributing](#contributing)
+- [Audit trail](#audit-trail)
+- [InstituteOS sidecar](#instituteos-sidecar)
+
 ## Contents
 
 | Area | What it contains |

@@ -7,6 +7,7 @@ Knowledge-Engineering is a public research-data and exploratory tooling archive.
 ## Layout
 
 - `README.md` — public overview and documentation index.
+- `Literature_Analysis/README.md` — folder-level guide to the four analysis subareas.
 - `Literature_Analysis/*/README.md` — area-specific documentation.
 - `Literature_Analysis/PDF_Scrape/` — scripts and parameter CSVs; the expected PDF corpus is not committed.
 - `Literature_Analysis/Pubmed_to_Coda/` — historical PubMed notebook and outputs.
