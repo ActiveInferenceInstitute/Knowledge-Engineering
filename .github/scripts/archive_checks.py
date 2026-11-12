@@ -25,7 +25,7 @@ from subprocess import run as run_process
 from urllib.parse import unquote
 
 INLINE_LINK = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
-REFERENCE_LINK = re.compile(r"^\[[^\]]+\]:\s*(\S+)")
+REFERENCE_LINK = re.compile(r"^\[[^\]]+\]:\s*(\S+)", re.MULTILINE)
 EXTERNAL_TARGET = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*:")
 CHECKPOINT = re.compile(r"(^|/)\.ipynb_checkpoints/")
 

@@ -83,6 +83,31 @@ class LinkCheckTests(TreeCase):
         finally:
             outside.unlink()
 
+    def test_reference_definition_below_first_line_is_checked(self) -> None:
+        page = self.write(
+            "docs/page.md",
+            "# Guide\n"
+            "\n"
+            "See [the appendix][appendix].\n"
+            "\n"
+            "[appendix]: missing.md\n",
+        )
+        errors = archive_checks.check_links([page], self.root)
+        self.assertEqual(len(errors), 1)
+        self.assertIn("docs/page.md: missing link target: missing.md", errors[0])
+
+    def test_resolving_reference_definition_passes(self) -> None:
+        self.write("docs/appendix.md", "# appendix\n")
+        page = self.write(
+            "docs/page.md",
+            "# Guide\n"
+            "\n"
+            "See [the appendix][appendix].\n"
+            "\n"
+            "[appendix]: appendix.md\n",
+        )
+        self.assertEqual(archive_checks.check_links([page], self.root), [])
+
     def test_non_markdown_files_are_skipped(self) -> None:
         script = self.write("docs/note.txt", "[gone](does-not-exist.md)\n")
         self.assertEqual(archive_checks.check_links([script], self.root), [])
