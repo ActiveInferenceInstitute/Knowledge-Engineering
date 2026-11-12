@@ -97,7 +97,10 @@ schema and repository identity, installs
 with `--no-deps` plus the runtime dependencies `defusedxml`, `psutil`, and
 `pyyaml`, then checks that the installed `gnn.__version__` equals the tag
 without its `v`. Parsing then covers every `*.gnn.md` sketch in the repository
-(full parse, syntax validation, type checking). This archive carries none, so
+(full parse, syntax validation, type checking). The type-check verdict passes
+only when `validate_gnn_files` returns the literal `True`; its `2`
+(`SUCCESS_WITH_WARNINGS`, which covers invalid files and an empty model set) is
+a failure, as `.github/GNN.md` records. This archive carries none, so
 the arm validates the pinned upstream exemplar
 `input/gnn_files/basics/static_perception.md` at the pinned revision and prints
 a JSON receipt naming `"source": "pinned-exemplar"`.

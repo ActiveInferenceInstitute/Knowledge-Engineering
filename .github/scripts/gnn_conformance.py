@@ -109,8 +109,18 @@ def _check_types(sketches: list[Path]) -> None:
         model_dir.mkdir()
         for index, sketch in enumerate(sketches):
             shutil.copy2(sketch, model_dir / f"{index:03d}_{sketch.name}")
-        if not GNNTypeChecker().validate_gnn_files(model_dir, Path(output_dir)):
-            raise SystemExit("GNN type checker rejected the checked sketches")
+        checked = GNNTypeChecker().validate_gnn_files(model_dir, Path(output_dir))
+        # ``validate_gnn_files`` is tri-state, not boolean: ``True`` when every
+        # file validated, ``2`` when one or more files were invalid *or* no GNN
+        # file was found, ``False`` on a hard failure. ``2`` is truthy, so a
+        # truthiness test passes an invalid model set; only ``True`` may pass.
+        if checked is not True:
+            raise SystemExit(
+                "GNN type checker did not verify the checked sketches: "
+                f"validate_gnn_files returned {checked!r} "
+                "(True = every file validated, 2 = invalid files or none found, "
+                "False = hard failure)"
+            )
 
 
 def verify(root: Path, pin: dict) -> dict:
