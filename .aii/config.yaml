@@ -1,7 +1,7 @@
 # AII sidecar — InstituteOS metadata. Schema: aii_platform.aii_sidecar
 meta:
   sidecar_version: 1.2.1
-  updated: '2026-11-11'
+  updated: '2026-11-12'
 repo:
   name: Knowledge-Engineering
   slug: knowledge-engineering
@@ -88,16 +88,42 @@ capabilities:
 - ci
 - citation
 tasks:
-  inventory:
-    cmd: git ls-files
-    description: List tracked files.
-  test:
+  links:
+    cmd: python .github/scripts/gate.py links
+    description: Check documentation links and Publishing digests; docs index is docs/documentation-index.md.
+  python:
+    cmd: python .github/scripts/gate.py python
+    description: Compile tracked Python sources.
+  notebooks:
+    cmd: python .github/scripts/gate.py notebooks
+    description: Check notebook JSON and absence of outputs.
+  checkpoints:
+    cmd: python .github/scripts/gate.py checkpoints
+    description: Reject tracked Jupyter checkpoints.
+  archive:
+    cmd: python .github/scripts/gate.py archive
+    description: Run the archive checks and Publishing digest checks.
+  tests:
+    cmd: python .github/scripts/gate.py tests
+    description: Run dependency-free gate tests.
+  gnn:
+    cmd: python .github/scripts/gate.py gnn
+    description: Check GNN conformance using .github/gnn-pin.json.
+  fast:
     cmd: python .github/scripts/gate.py fast
-    description: Run the dependency-free gate arm (links, syntax, notebooks, tests).
+    description: Run archive checks and tests; no manuscript command exists.
+  full:
+    cmd: python .github/scripts/gate.py full
+    description: Run fast and GNN conformance.
+  timings:
+    cmd: python .github/scripts/gate.py timings
+    description: Measure offline arms and regenerate docs/gate-timings.md.
 docs:
 - README.md
 - AGENTS.md
-- docs/INTEGRATION.md
+- .aii/docs/INTEGRATION.md
 - docs/README.md
-- docs/AGENTS.md
+- .aii/docs/AGENTS.md
+- docs/documentation-index.md
+- docs/workflows/publishing.md
 schema: aii-sidecar/v1

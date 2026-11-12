@@ -17,6 +17,8 @@ place. Generated pages are marked as such and are refreshed by a script.
 - [docs/index.md](index.md) — the same map rendered as guide and reference tables.
 - [docs/RUN_GUIDE.md](RUN_GUIDE.md) — gate entry point, arms, CI jobs, GNN pin.
 - [docs/gate-timings.md](gate-timings.md) — **generated** per-arm wall times.
+- [docs/workflows/publishing.md](workflows/publishing.md) — member migration, canonical contract pointer, and artifact digests.
+- [docs/workflows/record-identity.schema.json](workflows/record-identity.schema.json) — digest-pinned canonical Publishing identity schema.
 
 ## Guides
 

@@ -97,6 +97,20 @@ def _report(label: str, inspected: int, errors: list[str], note: str = "") -> in
 
 def arm_archive(names: tuple[str, ...], label: str) -> int:
     inspected, errors = archive_checks.run(names, ROOT)
+    if "links" in names:
+        for artifact in (
+            "docs/workflows/record-identity.schema.json",
+            "scripts/gate/identity.py",
+            ".github/gnn-pin.json",
+        ):
+            result = subprocess.run(
+                [sys.executable, "-B", "scripts/gate/identity.py", "--verify-copy", artifact],
+                cwd=ROOT,
+                stdin=subprocess.DEVNULL,
+                check=False,
+            )
+            if result.returncode:
+                errors.append(f"{artifact}: Publishing digest verification failed")
     notes = {
         "links": "links resolve",
         "python": "Python compiles",

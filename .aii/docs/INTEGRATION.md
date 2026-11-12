@@ -55,10 +55,11 @@
 
 ## Portable tasks
 
-| Task | Command | Working directory | Description |
-| --- | --- | --- | --- |
-| `inventory` | `git ls-files` | `.` | List tracked files. |
-| `test` | `python .github/scripts/gate.py fast` | `.` | Run the default dependency-free gate arm (links, syntax, notebooks, gate tests). |
+Portable tasks in [config.yaml](../config.yaml) map directly to the gate's arms.
+The [run guide](../../docs/RUN_GUIDE.md) owns their commands and descriptions;
+the [documentation index](../../docs/documentation-index.md) is the docs entry
+point. There is no manuscript command. GNN conformance uses
+[the pin](../../.github/gnn-pin.json).
 
 ## Validation
 

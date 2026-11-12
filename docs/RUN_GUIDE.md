@@ -14,7 +14,7 @@ $ python .github/scripts/gate.py --list
 
 | Arm | Command | What it checks |
 | --- | --- | --- |
-| `links` | `python .github/scripts/gate.py links` | Relative Markdown link and image targets resolve inside the repository. |
+| `links` | `python .github/scripts/gate.py links` | Relative Markdown link and image targets resolve inside the repository; Publishing artifact digests match. |
 | `python` | `python .github/scripts/gate.py python` | Tracked Python files compile under the running interpreter. |
 | `notebooks` | `python .github/scripts/gate.py notebooks` | Tracked notebooks are valid JSON with no committed cell outputs. |
 | `checkpoints` | `python .github/scripts/gate.py checkpoints` | No Jupyter checkpoint file is tracked. |
@@ -29,6 +29,11 @@ $ python .github/scripts/gate.py --list
 implementation in `.github/scripts/archive_checks.py`; running `archive` reads
 `git ls-files` once instead of four times. `gnn` lives in
 `.github/scripts/gnn_conformance.py` and is the only arm that needs the network.
+
+The `links` check also invokes the byte-identical Publishing checker with
+`--verify-copy` for the schema, checker module, and GNN pin recorded in the
+[member contract](workflows/publishing.md). This runs through `archive`, `fast`,
+and `full` too; no additional gate arm or corpus is introduced.
 
 ## Where the arms are measured
 
