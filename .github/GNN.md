@@ -20,6 +20,16 @@ What it validates, in order:
    exemplar at the pin's revision and validates that instead, and the JSON
    receipt says `"source": "pinned-exemplar"`.
 
+The type checker's verdict is tri-state, not boolean: `validate_gnn_files`
+returns `True` when every file validated, `2` when one or more files had
+type/consistency problems **or when no GNN file was found**, and `False` on a
+hard failure. Only the literal `True` passes the arm. `2` is truthy, so a
+truthiness test would report an invalid model set as `"result": "verified"`;
+instead any other value exits non-zero and the refusal names the value the
+checker returned. `.github/scripts/tests/test_gnn_conformance.py` pins all four
+outcomes (`True`, `2`, `False`, `None`/`0`) without needing the parser
+installed.
+
 The arm needs network access and a Python version the pinned release supports
 (`>=3.11,<3.15`); CI uses 3.12. The local recipe, including a throwaway virtual
 environment, is in [`RUN_GUIDE.md`](../docs/RUN_GUIDE.md#running-the-gnn-arm-locally).
