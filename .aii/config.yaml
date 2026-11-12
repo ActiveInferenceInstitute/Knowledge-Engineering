@@ -92,8 +92,8 @@ tasks:
     cmd: git ls-files
     description: List tracked files.
   test:
-    cmd: python .github/scripts/check_archive.py
-    description: Run the dependency-free archive gate (links, syntax, notebooks).
+    cmd: python .github/scripts/gate.py fast
+    description: Run the dependency-free gate arm (links, syntax, notebooks, tests).
 docs:
 - README.md
 - AGENTS.md

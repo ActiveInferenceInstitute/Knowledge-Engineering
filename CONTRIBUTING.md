@@ -25,6 +25,18 @@ Thank you for improving this research archive.
 
 ## Pull requests
 
+Run the repository gate before opening a pull request; CI runs the same
+commands:
+
+```bash
+python .github/scripts/gate.py fast
+```
+
+Add the GNN arm (`python .github/scripts/gate.py gnn --install`) when you change
+`.github/gnn-pin.json` or the conformance script. Arms and their measured wall
+times are in [docs/RUN_GUIDE.md](docs/RUN_GUIDE.md) and
+[docs/gate-timings.md](docs/gate-timings.md).
+
 Describe the files changed, the verification performed, and any remaining limitations. Keep data provenance clear: include source, query date, filters, and transformations for newly generated exports where known.
 
 ## License

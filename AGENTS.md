@@ -25,17 +25,23 @@ Knowledge-Engineering is a public research-data and exploratory tooling archive.
 
 ## Verification
 
-The repository gate is dependency-free and must pass before publishing:
+The repository gate is one entry point with individually runnable arms, and it
+must pass before publishing:
 
 ```bash
-python .github/scripts/check_archive.py
+python .github/scripts/gate.py fast
 ```
 
-It checks relative Markdown links and anchors, compiles tracked Python files,
-rejects notebooks that are not output-free JSON, and rejects tracked Jupyter
-checkpoints. For Python edits, also run `python -m py_compile` on changed
-scripts. For notebook edits, verify JSON validity and compare code-cell sources
-before and after output cleanup. For documentation edits, check relative links
-and ensure dates/status claims match repository contents.
+`fast` runs the four archive checks over one `git ls-files` read (relative
+Markdown links resolve, tracked Python compiles, notebooks are output-free JSON,
+no Jupyter checkpoint is tracked) plus the gate's own tests. CI calls exactly
+this command, and separately
+`python .github/scripts/gate.py gnn --install` for the pinned GNN conformance.
+Arms, job keys, the pin, and measured wall times are in
+[`docs/RUN_GUIDE.md`](docs/RUN_GUIDE.md). For Python edits, also run
+`python -m py_compile` on changed scripts. For notebook edits, verify JSON
+validity and compare code-cell sources before and after output cleanup. For
+documentation edits, check relative links and ensure dates/status claims match
+repository contents.
 
 See `CONTRIBUTING.md` for public contribution guidance and `TO-DO.md` for the current audit state.

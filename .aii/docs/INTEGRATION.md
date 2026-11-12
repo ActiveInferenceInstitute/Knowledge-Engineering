@@ -58,7 +58,7 @@
 | Task | Command | Working directory | Description |
 | --- | --- | --- | --- |
 | `inventory` | `git ls-files` | `.` | List tracked files. |
-| `test` | `python .github/scripts/check_archive.py` | `.` | Run the dependency-free archive gate (links, syntax, notebooks). |
+| `test` | `python .github/scripts/gate.py fast` | `.` | Run the default dependency-free gate arm (links, syntax, notebooks, gate tests). |
 
 ## Validation
 
