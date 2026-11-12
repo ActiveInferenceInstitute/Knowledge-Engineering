@@ -40,8 +40,16 @@ Institute repositories without touching this project's own content. The schema i
 
 | Task | Command | Working directory | Description |
 | --- | --- | --- | --- |
-| `inventory` | `git ls-files` | `.` | List tracked files. |
-| `test` | `python .github/scripts/gate.py fast` | `.` | Run the default dependency-free gate arm (links, syntax, notebooks, gate tests). |
+| `links` | `python .github/scripts/gate.py links` | `.` | Check documentation links and Publishing digests; docs index is docs/documentation-index.md. |
+| `python` | `python .github/scripts/gate.py python` | `.` | Compile tracked Python sources. |
+| `notebooks` | `python .github/scripts/gate.py notebooks` | `.` | Check notebook JSON and absence of outputs. |
+| `checkpoints` | `python .github/scripts/gate.py checkpoints` | `.` | Reject tracked Jupyter checkpoints. |
+| `archive` | `python .github/scripts/gate.py archive` | `.` | Run the archive checks and Publishing digest checks. |
+| `tests` | `python .github/scripts/gate.py tests` | `.` | Run dependency-free gate tests. |
+| `gnn` | `python .github/scripts/gate.py gnn` | `.` | Check GNN conformance using .github/gnn-pin.json. |
+| `fast` | `python .github/scripts/gate.py fast` | `.` | Run archive checks and tests; no manuscript command exists. |
+| `full` | `python .github/scripts/gate.py full` | `.` | Run fast and GNN conformance. |
+| `timings` | `python .github/scripts/gate.py timings` | `.` | Measure offline arms and regenerate docs/gate-timings.md. |
 
 ## Links
 
