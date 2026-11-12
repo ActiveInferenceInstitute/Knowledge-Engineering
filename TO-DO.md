@@ -43,5 +43,5 @@ Sections:
 None — every scoped finding from the 2026-08-02 review has been implemented. Future candidates (not scoped, noted for owners):
 
 1. Rendered docs site with a static-site generator and CI (MkDocs/Jekyll) if the repo grows a library component.
-2. Code modernization beyond the entrypoint fix: `dataImport.py`/`docResults.py` module-level file reads (relative paths by design), `formatFileId` edge cases, `docResults1` legacy variant removal.
+2. Code modernization beyond the entrypoint fix: `dataImport.py`/`docResults.py` module-level file reads (relative paths by design), `formatFileId` edge cases. (`docResults1` legacy variant was removed on 2026-11-06.)
 3. A `requirements.txt`/`pyproject.toml` for the PDF_Scrape tool if it is revived for active use.
