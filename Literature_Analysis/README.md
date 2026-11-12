@@ -53,9 +53,12 @@ normalize or silently regenerate committed exports during unrelated work.
 
 ## Gate
 
-The repository's dependency-free archive gate checks relative links, Python
-syntax, notebook JSON and outputs, and Jupyter checkpoints:
+The repository gate is one script with separately runnable arms; the default
+`fast` arm checks relative links, Python syntax, notebook JSON and outputs,
+Jupyter checkpoints, and the gate's own tests:
 
 ```bash
-python .github/scripts/check_archive.py
+python .github/scripts/gate.py fast
 ```
+
+See [docs/RUN_GUIDE.md](../docs/RUN_GUIDE.md) for every arm.

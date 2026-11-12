@@ -43,13 +43,15 @@ The notebook uses `pandas` and Biopython's `Bio.Entrez` client. Open `Literature
 
 The PDF scraper expects a local PDF corpus at `Literature_Analysis/PDF_Scrape/resc/pdfList/`, which is not included in this repository. Its parameter files and invocation details are documented in the [PDF_Scrape README](Literature_Analysis/PDF_Scrape/README.md).
 
-### Verify the archive
+### Verify the repository
 
-The repository's own gate is dependency-free. It fails when a relative Markdown link does not resolve, a tracked Python file does not compile, a notebook is invalid JSON or carries committed cell outputs, or a Jupyter checkpoint file is tracked:
+One gate script, runnable arm by arm. The default `fast` arm is dependency-free. It fails when a relative Markdown link does not resolve, a tracked Python file does not compile, a notebook is invalid JSON or carries committed cell outputs, a Jupyter checkpoint file is tracked, or the gate's own tests fail:
 
 ```bash
-python .github/scripts/check_archive.py
+python .github/scripts/gate.py fast
 ```
+
+List every arm with `python .github/scripts/gate.py --list`; the network-backed `gnn` conformance arm and the measured wall time for each arm are documented in [docs/RUN_GUIDE.md](docs/RUN_GUIDE.md) and [docs/gate-timings.md](docs/gate-timings.md).
 
 ## Documentation
 

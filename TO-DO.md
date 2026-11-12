@@ -1,6 +1,6 @@
 # TO-DO — Knowledge-Engineering documentation pass
 
-Last reviewed: 2026-11-02 (canonical-ontology pointer pass) after 2026-08-02 (docs-deep review; see `REVIEW_LOG_2026-08-02.md`)
+Last reviewed: 2026-11-12 (composable gate entry point) after 2026-11-02 (canonical-ontology pointer pass) and 2026-08-02 (docs-deep review; see `REVIEW_LOG_2026-08-02.md`)
 
 Sections:
 - **Minor** — typo, broken link, formatting, small cleanups.
@@ -28,6 +28,7 @@ Sections:
 - [x] **Improve `.aii/config.yaml` description** — `repo.description` was a bare Zenodo URL + DOI; replaced with a human-readable description and registered all top-level and area doc artifacts. ✓ commits `94ff9a7`, `2c2660d`
 - [x] **Harden PDF_Scrape entrypoint behavior** — `streamingExport.py` prompted at import time and `manager.py` executed at import. Now: lazy export configuration (import-safe), `if __name__ == "__main__"` guard, and failure logs include the exception message. Verified end-to-end in a throwaway venv (257-record run via stdin). ✓ commit `5bb023f` (fix: guard manager entrypoint and make streaming export configuration lazy)
 - [x] **Point at the canonical ontology home** — `Ontology_Snapshot/` is a frozen December 2022 export, so the README, `docs/provenance.md`, and the area README now name [`Active_Inference_Ontology`](https://github.com/ActiveInferenceInstitute/Active_Inference_Ontology) as the published home: current v5 release (May 25, 2023, 429 terms) with stable identities and typed relations, the archived December 12, 2022 snapshot of the same 411-row export, and the GNN vocabulary bridge for `ActInfOntologyAnnotation` labels. 402 of the 408 terms in the snapshot appear verbatim in the v5 release the canonical repository publishes. The snapshot CSVs were not touched. Verified: the canonical paths exist on that repository's `main` branch, the term overlap was measured from the committed CSVs, and every relative link in the edited files resolves. ✓ commit `fbaefeb`
+- [x] **Compose the gate into one entry point** — the archive checks moved into `.github/scripts/archive_checks.py` and the GNN job body moved out of `ci.yml` into `.github/scripts/gnn_conformance.py`; `.github/scripts/gate.py` is now the only command line, with separately runnable arms (`links`, `python`, `notebooks`, `checkpoints`, `archive`, `tests`, `gnn`, `fast`, `full`, `timings`). Both CI jobs run one arm each, so no check body is duplicated in the workflow, and the pin is validated against schema `gnn-importer-pin/v1` in code instead of two inline heredocs. The gate gained tests (`.github/scripts/tests/test_gate.py`) and a generated wall-time page (`docs/gate-timings.md`); `docs/RUN_GUIDE.md` and `docs/documentation-index.md` document them. ✓ 2026-11-12
 
 ## Major
 
