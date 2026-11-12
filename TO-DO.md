@@ -1,6 +1,6 @@
 # TO-DO — Knowledge-Engineering documentation pass
 
-Last reviewed: 2026-11-12 (handoff refresh after the Publishing, pin-schema and sidecar merges; GNN pin and CI evidence rechecked) after 2026-11-12 (composable gate entry point), 2026-11-02 (canonical-ontology pointer pass) and 2026-08-02 (docs-deep review; see `REVIEW_LOG_2026-08-02.md`)
+Last reviewed: 2026-11-12 (GNN type-check verdict now fails closed; the pin and the billing-locked CI state are unchanged) after 2026-11-12 (handoff refresh after the Publishing, pin-schema and sidecar merges; GNN pin and CI evidence rechecked) after 2026-11-12 (composable gate entry point), 2026-11-02 (canonical-ontology pointer pass) and 2026-08-02 (docs-deep review; see `REVIEW_LOG_2026-08-02.md`)
 
 Sections:
 - **Minor** — typo, broken link, formatting, small cleanups.
@@ -33,6 +33,7 @@ Sections:
 - [x] **Check reference-style links on every line** — the archive-checks refactor dropped `re.MULTILINE` from `REFERENCE_LINK`, so a reference definition below a page's first line (e.g. `[appendix]: missing.md`) stopped being checked; the flag is restored and `test_gate.py` now covers both a missing and a resolving definition below a heading. ✓ PR #10, commit `438b281`
 - [x] **Record the Publishing member contract and identity pins** — `docs/workflows/publishing.md` points at the ActiveInferenceJournal contract (revision `d8ec888a8f3051a66bed9af047ee4b206050bdce`) and carries the `name  sha256` block for `record-identity.schema.json`, `scripts/gate/identity.py` and `.github/gnn-pin.json`; the `links` arm runs the copied module's `--verify-copy` for all three and `test_publishing.py` proves a drifted copy fails the docs gate. Digests were checked against the files (`identity: … matches publishing.md`). ✓ PR #11, commit `a6d282c`
 - [x] **Correct the sidecar document paths** — `.aii/config.yaml` listed `.aii/docs/INTEGRATION.md` and `.aii/docs/AGENTS.md` under `docs:`, but the validator resolves entries relative to `.aii/`, so those pointed at `.aii/.aii/docs/…`; they are now `docs/INTEGRATION.md`, `docs/AGENTS.md`, `../docs/documentation-index.md` and `../docs/workflows/publishing.md`, and `aii_sidecar validate` reports `OK: .`. ✓ PR #12, commit `d5bf61c`
+- [x] **Fail closed on the GNN type-check verdict** — `_check_types` in `.github/scripts/gnn_conformance.py` tested `GNNTypeChecker.validate_gnn_files` for truthiness, but the pinned parser (`8f293d9`, v5.0.3) returns `2` for invalid files **or** an empty model set and `True` only when every file validated, so an invalid sketch still produced `"result": "verified"` and exit 0. Reproduced with the pinned parser on the upstream exemplar with `A[3,3]` declared against its 2×2 matrix; the arm now passes only on `is True` and names the returned value on refusal. `.github/scripts/tests/test_gnn_conformance.py` pins `True`, `2`, `False`, `None` and `0` without needing the parser installed, and `.github/GNN.md` plus `docs/RUN_GUIDE.md` record the tri-state contract. ✓ PR #14, commit `98a1445`
 
 ## Major
 
