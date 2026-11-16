@@ -2,18 +2,19 @@
 """Pinned Generalized Notation Notation (GNN) conformance for this archive.
 
 The repository pins one upstream parser revision in ``.github/gnn-pin.json``
-(schema ``gnn-importer-pin/v1``). This module validates that pin, installs the
-pinned distribution when asked, and verifies that
+(schema ``gnn-importer-pin/v1``). Before importing the parser it binds the
+independently frozen bootstrap and complete source manifest, then verifies
+origin and content throughout the actual parser/type-checker execution.
 
-* the installed parser reports the pinned version,
-* every ``*.gnn.md`` sketch in the repository parses, passes the syntax
+* the admitted parser reports the pinned version,
+* every tracked ``*.gnn.md`` sketch parses, passes the syntax
   validator, and passes the type checker, or
-* when the repository carries no sketch, a pinned upstream exemplar does.
+* when the repository tracks no sketch, a pinned upstream exemplar does.
 
 The GitHub Actions job ``gnn conformance (pinned)`` and the local gate arm
 ``gnn`` both call `gate.py`, which calls this module, so the job body exists
-once. Fetching the parser and the exemplar needs the network; nothing here
-touches the committed research artifacts.
+once. ``--install`` explicitly permits installation; source mode never installs
+or falls back from refused installed admission. Research artifacts are not changed.
 """
 
 from __future__ import annotations
@@ -26,6 +27,9 @@ import sys
 import tempfile
 import urllib.request
 from pathlib import Path
+
+from archive_checks import tracked_files
+import gnn_runtime
 
 PIN_PATH = Path(".github") / "gnn-pin.json"
 PIN_SCHEMA = "gnn-importer-pin/v1"
@@ -123,60 +127,77 @@ def _check_types(sketches: list[Path]) -> None:
             )
 
 
-def verify(root: Path, pin: dict) -> dict:
-    """Verify the installed parser and the checked sketches; return the receipt."""
-    try:
+def verify(
+    root: Path,
+    pin: dict,
+    *,
+    install_first: bool = False,
+    source_root: Path | None = None,
+) -> dict:
+    """Run every parser/verdict import and call inside checked source admission."""
+    with gnn_runtime.qualified_parser(
+        root,
+        pin,
+        source_root=source_root,
+        installer=install if install_first else None,
+    ) as qualification:
         from gnn import __version__
-    except ImportError as exc:
-        raise SystemExit(
-            "the pinned GNN parser is not installed for this interpreter; "
-            "run `python .github/scripts/gate.py gnn --install`"
-        ) from exc
 
-    expected_version = str(pin["tag"]).removeprefix("v")
-    if __version__ != expected_version:
-        raise SystemExit(f"installed GNN {__version__!r} does not match {pin['tag']!r}")
+        expected_version = str(pin["tag"]).removeprefix("v")
+        if __version__ != expected_version:
+            raise SystemExit(
+                f"admitted GNN {__version__!r} does not match {pin['tag']!r}"
+            )
 
-    sketches = sorted(
-        path
-        for path in root.rglob("*.gnn.md")
-        if ".git" not in path.relative_to(root).parts
-    )
+        sketches = sorted(
+            path
+            for path in tracked_files(root)
+            if path.name.endswith(".gnn.md")
+        )
 
-    with tempfile.TemporaryDirectory(prefix="gnn-conformance-") as workdir:
-        if sketches:
-            checked, source = sketches, "repository"
-        else:
-            exemplar = Path(workdir) / Path(EXEMPLAR_PATH).name
-            exemplar.write_bytes(_exemplar_bytes(pin))
-            checked, source = [exemplar], "pinned-exemplar"
-        for sketch in checked:
-            _check_parses(sketch)
-        _check_types(checked)
+        with tempfile.TemporaryDirectory(prefix="gnn-conformance-") as workdir:
+            if sketches:
+                checked, source = sketches, "repository"
+            else:
+                exemplar = Path(workdir) / Path(EXEMPLAR_PATH).name
+                exemplar.write_bytes(_exemplar_bytes(pin))
+                checked, source = [exemplar], "pinned-exemplar"
+            for sketch in checked:
+                _check_parses(sketch)
+            _check_types(checked)
 
-    return {
-        "gnn-version": __version__,
-        "pin-revision": pin["revision"],
-        "models": len(checked),
-        "source": source,
-        "result": "verified",
-    }
+        # Returning exits the guard first: a final content/origin refusal cannot
+        # escape as a verified receipt.
+        return {
+            "gnn-version": __version__,
+            "pin-revision": pin["revision"],
+            "models": len(checked),
+            "source": source,
+            "source-qualification": qualification,
+            "result": "verified",
+        }
 
 
-def run(root: Path, *, install_first: bool = False) -> int:
-    """Validate the pin, optionally install the parser, then verify."""
+def run(
+    root: Path,
+    *,
+    install_first: bool = False,
+    source_root: Path | None = None,
+) -> int:
+    """Validate the pin and run one explicitly installed or source-mode verdict."""
     try:
         pin = load_pin(root)
+        errors = validate_pin(pin)
+        if errors:
+            print("gnn conformance: pin does not satisfy the contract:", file=sys.stderr)
+            for error in errors:
+                print(f"- {error}", file=sys.stderr)
+            return 1
+        receipt = verify(
+            root, pin, install_first=install_first, source_root=source_root
+        )
     except (OSError, ValueError) as exc:
         print(f"gnn conformance: {exc}", file=sys.stderr)
         return 1
-    errors = validate_pin(pin)
-    if errors:
-        print("gnn conformance: pin does not satisfy the contract:", file=sys.stderr)
-        for error in errors:
-            print(f"- {error}", file=sys.stderr)
-        return 1
-    if install_first:
-        install(pin)
-    print(json.dumps(verify(root, pin), sort_keys=True))
+    print(json.dumps(receipt, sort_keys=True))
     return 0

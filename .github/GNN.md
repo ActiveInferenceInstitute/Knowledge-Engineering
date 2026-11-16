@@ -13,12 +13,11 @@ What it validates, in order:
 
 1. The pin's schema, repository identity, tag shape, 40-hex revision, and
    recorded date.
-2. The installed `gnn.__version__` against the tag without its `v`.
-3. Every `*.gnn.md` sketch in the repository: full parse, syntax validation, and
-   type checking of the collected models. When the repository has no sketch it
-   downloads the pinned upstream `input/gnn_files/basics/static_perception.md`
-   exemplar at the pin's revision and validates that instead, and the JSON
-   receipt says `"source": "pinned-exemplar"`.
+2. Independently frozen reviewed bootstrap and complete v5.0.3 manifest bytes, checked before any `gnn` import. Default installed mode additionally requires matching PEP610 Git origin and full package content, not just a version string.
+3. Version, parser, syntax, and type-check imports/calls run within the canonical source-qualification guard, including final origin/content rechecks. A verified receipt can escape only after that guard exits successfully.
+4. Sorted tracked `*.gnn.md` paths from Git inventory. Untracked/ignored sketches are excluded; inventory errors refuse. Only an empty tracked selection downloads the pinned `input/gnn_files/basics/static_perception.md` exemplar and reports `"source": "pinned-exemplar"`.
+
+`--gnn-source-root /exact/checkout/src/gnn` explicitly selects the narrower independently manifested source mode (`vcs_verified=false`). It is incompatible with `--install`; installed refusal never falls back to source. Each verdict requires a fresh process. `source` describes model provenance; `source-qualification` describes parser provenance, not scientific validity.
 
 The type checker's verdict is tri-state, not boolean: `validate_gnn_files`
 returns `True` when every file validated, `2` when one or more files had
@@ -26,12 +25,8 @@ type/consistency problems **or when no GNN file was found**, and `False` on a
 hard failure. Only the literal `True` passes the arm. `2` is truthy, so a
 truthiness test would report an invalid model set as `"result": "verified"`;
 instead any other value exits non-zero and the refusal names the value the
-checker returned. `.github/scripts/tests/test_gnn_conformance.py` pins all four
-outcomes (`True`, `2`, `False`, `None`/`0`) without needing the parser
-installed.
+checker returned. Controlled fixtures also reject integer `1`, corrupted authority/content, cached or foreign modules, missing installed origin, and source drift across verdict execution. They do not establish installed-runtime provenance.
 
-The arm needs network access and a Python version the pinned release supports
-(`>=3.11,<3.15`); CI uses 3.12. The local recipe, including a throwaway virtual
-environment, is in [`RUN_GUIDE.md`](../docs/RUN_GUIDE.md#running-the-gnn-arm-locally).
-A green result is a pipeline and pin conformance baseline, not a claim that this
-repository contains a model.
+The pinned release supports Python `>=3.11,<3.15`; CI uses 3.12. Explicit installation and empty-selection exemplar fetching need network authority. Already prepared source mode does not remove the exemplar's network prerequisite from the complete gate. See the [run guide](../docs/RUN_GUIDE.md#running-the-gnn-arm-locally).
+
+A green parser result is not a model of this archive, dependency-lock qualification, or scientific evidence.

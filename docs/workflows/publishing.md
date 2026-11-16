@@ -31,9 +31,6 @@ identity.py  847328ff163fa90c869495164869caf4e83313748e8a444dbab8d4e459b11074
 gnn-pin.json  eb83f7f1b73eb31e116bd05b1f457dd07e6874a2a4ba0e9e95e5bc91f094cd55
 ```
 
-The `links` arm invokes the canonical module's `--verify-copy` command for every
-artifact above. `archive`, `fast`, and `full` include that check. Gate tests prove
-that matching copies pass and changed copies fail. Checks are offline and
-stdlib-only; no JSON Schema package, journal corpus, or fabricated record data is
-required. These checks prove artifact agreement, not identity coverage of the
-historical research exports.
+The `links` arm invokes the recorded module's `--verify-copy` for every artifact above; `archive`, `fast`, and `full` include it. This offline standard-library check establishes agreement with the local digest block. It neither fetches/authenticates the producer nor establishes upstream freshness or historical-corpus identity coverage.
+
+Do not independently edit borrowed checker/schema bytes. Adoption of repaired upstream logic requires its qualified immutable revision, complete approved artifact roster, exact bytes, and authoritative digests; update copies and the member contract together. A dirty producer base plus new working-tree bytes is not an immutable release. This member's GNN pin remains locally owned. Do not fabricate publishing records for archived research exports.

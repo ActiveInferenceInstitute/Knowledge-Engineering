@@ -10,6 +10,11 @@ def formatFileId(fileId):
         nFileId += "0"
     return nFileId+str(fileId)
 
+# normalizeText preserves the historical space/newline-free substring search.
+def normalizeText(text):
+    return text.lower().replace(" ", "").replace("\n", "")
+
+
 
 # genOutPutHeader creates a header for output csv file
 def genOutPutHeader(kwlist):
@@ -28,8 +33,7 @@ def getKws():
         r = reader(fileInfo)
         next(r)
         for row in r:
-            #kwlist[row[0]]=""
-            kwlist[row[0].lower().replace(" ", "")]="" #bugfix 8-1-22
+            kwlist[normalizeText(row[0])] = ""
     return kwlist
 
 # getFileInfo pulls paper information from fileInfo.csv and returns a dict

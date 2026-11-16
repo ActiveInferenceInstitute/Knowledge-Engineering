@@ -26,19 +26,9 @@ Knowledge-Engineering/
 
 ### PubMed → FEP/ActInf dataset
 
-```
-NCBI Entrez (esearch "free energy principle"[TIAB] / "active inference"[TIAB],
-            open-access filter)
-        │
-        ▼
-Pubmed_Query.ipynb ──► ids.csv (258 PMIDs)
-   │                     PMIDS2.csv (168 PMID→DOI)
-   │
-   └──► FEP_ActInf.csv (331 records: abstract, authors, num_authors,
-                        first_author, title, DOI)
-```
+The preserved notebook fetches abstracts, authors, and titles from live Entrez query identifiers. It separately reads frozen `ids.csv` for author dictionaries and frozen `PMIDS2.csv` for DOI joins; the displayed `ids` DataFrame does not write either input. Left joins assemble metadata before a relative write to `FEP_ActInf.csv`.
 
-The notebook's module flow: `Bio.Entrez.esearch` collects PMIDs, `efetch` (XML) retrieves abstracts, author lists, and titles, then DataFrame joins attach author counts and DOIs before the final CSV export. Inputs `ids.csv`/`PMIDS2.csv` are read relative to the notebook's working directory.
+This mixes live responses and frozen cohorts and can overwrite the archived export. It is a historical flow description, not proof of reproducibility; see the [PubMed warnings](../Literature_Analysis/Pubmed_to_Coda/README.md).
 
 ### PDF corpus → keyword counts
 
@@ -65,7 +55,7 @@ manager.py ──► dataImport.py
 
 `utilCSV.py` is an unused placeholder.
 
-Keyword normalization: `dataImport.getKws()` lowercases each term and removes spaces, so the effective match set is the 331 normalized keys; duplicate/case-variant source rows are therefore behaviorally irrelevant (the list was deduplicated for readability on 2026-08-02).
+`dataImport.normalizeText()` lowercases and removes literal spaces/newlines for keywords, full text, and abstracts. Text is normalized once per document. Counting remains nonoverlapping substring search; normalized-key insertion order determines result columns. Parameter CSV reads occur at import relative to CWD. The recorded 2026-08-02 deduplication remains historical maintenance, not a new measurement.
 
 ## Cross-references between areas
 

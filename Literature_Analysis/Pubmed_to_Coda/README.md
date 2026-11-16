@@ -18,14 +18,32 @@ The notebook imports `pandas` and `Bio.Entrez` from Biopython. Install them in a
 python -m pip install pandas biopython jupyter
 ```
 
-Before running requests, replace the notebook's example `Entrez.email = 'you@email.com'` values with an address for NCBI request identification. The notebook calls the public Entrez `esearch` and `efetch` endpoints and may produce different results as PubMed changes.
+An NCBI contact address identifies separately approved requests; it does not resolve the extraction or cohort limitations below.
 
-## Run
+## Historical status and rerun warning
 
-Open `Pubmed_Query.ipynb` in Jupyter and execute cells in order. The notebook writes `FEP_ActInf.csv` in this directory. It uses `ids.csv` and `PMIDS2.csv` during the join stage; keep those files in the notebook's working directory or update the paths.
+This February 2022 notebook is preserved exploratory source, not a validated current extraction workflow. Keep the notebook and committed CSVs as historical artifacts. Inventory counts describe saved snapshots, not expected new query results. The following source risks do not establish that particular saved rows were affected.
 
-The notebook is retained as a historical exploratory artifact. It contains repeated author-unpacking cells and assumes at least 13 author positions in its intermediate DataFrame. No automated tests are included.
+Do not execute all cells in this checkout to reproduce the archive. The notebook makes live Entrez requests; zero-based cell 35 writes `FEP_ActInf.csv` in CWD and can overwrite the committed export. Ignore rules do not prevent that overwrite.
+
+### Known source limitations
+
+Cell numbers are zero-based.
+
+- **Structured/missing abstracts:** cell 4 retains only `AbstractText[0]`; later sections are not assembled. Missing `Abstract` records are skipped; empty/missing `AbstractText` is unguarded. Cells 5 and 29 retain abstract-bearing records as the left-hand join set. The scratch missing-abstract list is reused, not retained as an exclusion report.
+- **Tenth author:** cell 18 selects `Authors9` but builds `A9` from `Authors3`. It repeats fourth-author data and can add that duplicate even when a record has no tenth author.
+- **Truncation/narrow frames:** cells 8–22 assemble positions 0–12, thirteen positions rather than the fourteen in a comment. Later authors are omitted. Unconditional positional-column selection can fail when the cohort's widest list has fewer than thirteen positions; this is a cohort-wide frame-width assumption.
+- **Derived lists/counts:** cells 22 and 24–26 use those positional frames. Duplicated or omitted authors feed both lists and `num_authors`, which need not equal complete Entrez `AuthorList` lengths.
+- **Final schema:** cell 34 names exactly six data columns: `abstract`, `authors`, `num_authors`, `first_author`, `title`, `DOI`. PMID remains the exported join index. Earlier affiliation fields and cohort provenance are not separate final fields; renaming assumes exactly six joined data columns.
+- **Missing matches:** cell 27 selects the first-author match with `.values[0]`; an absent PMID can stop execution. Later left joins do not reconcile coverage/cardinality. Unmatched surviving rows may contain missing metadata; right-only identifiers add no rows.
+- **Live/frozen mixing:** live queries/fetches are combined with frozen `ids.csv` author inputs and `PMIDS2.csv` DOI inputs. The displayed `ids` frame does not refresh either file. A rerun is not automatically a consistent new cohort or reproduction.
+
+### Decisions before revival
+
+Warning documentation does not authorize notebook edits or data regeneration. The research owner must select the PMID cohort, query/filter/date policy, structured/missing-abstract treatment, complete author extraction or labeled limit, missing-join behavior, required fields, provenance, and a non-overwriting destination.
+
+Future offline acceptance must cover multi-section/missing/empty abstracts; zero/one/narrow author cohorts; fourth-author records without tenth authors; distinct fourth/tenth authors; lists longer than thirteen; missing author/first-author matches; query-only, author-input-only and DOI-input-only PMIDs; association/order/count/schema fidelity; and preservation of historical exports.
 
 ## Provenance
 
-The checked-in CSVs are snapshots, not a live PubMed database. Record the execution date, query terms, and any changed filters when generating a replacement export. See the repository [README](../../README.md) for the citation and license.
+Committed CSVs are snapshots, not a live database. Separately approved new exports must record date, exact query/filters, selected PMID cohort, input versions, extraction policies, and destination without replacing archived exports. See the repository [README](../../README.md) for citation and license.

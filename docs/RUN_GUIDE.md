@@ -19,8 +19,8 @@ $ python .github/scripts/gate.py --list
 | `notebooks` | `python .github/scripts/gate.py notebooks` | Tracked notebooks are valid JSON with no committed cell outputs. |
 | `checkpoints` | `python .github/scripts/gate.py checkpoints` | No Jupyter checkpoint file is tracked. |
 | `archive` | `python .github/scripts/gate.py archive` | The four archive checks over one `git ls-files` read. |
-| `tests` | `python .github/scripts/gate.py tests` | The gate's own dependency-free unit tests. |
-| `gnn` | `python .github/scripts/gate.py gnn --install` | The pinned GNN parser, sketch parsing, and type checking. |
+| `tests` | `python .github/scripts/gate.py tests` | Dependency-free gate contracts and controlled scraper regressions. |
+| `gnn` | `python .github/scripts/gate.py gnn` | Qualified installed parser origin/content, sketch parsing, syntax and type checking; installation requires explicit `--install`. |
 | `fast` (default) | `python .github/scripts/gate.py fast` | `archive` + `tests`; CI's docs job runs exactly this. |
 | `full` | `python .github/scripts/gate.py full` | `fast` + `gnn`; the whole gate. |
 | `timings` | `python .github/scripts/gate.py timings` | Measure each offline arm once and rewrite the timings page. |
@@ -28,12 +28,9 @@ $ python .github/scripts/gate.py --list
 `links`, `python`, `notebooks`, `checkpoints`, and `archive` share one
 implementation in `.github/scripts/archive_checks.py`; running `archive` reads
 `git ls-files` once instead of four times. `gnn` lives in
-`.github/scripts/gnn_conformance.py` and is the only arm that needs the network.
+`.github/scripts/gnn_conformance.py`; installation and empty-model exemplar fetching need network access.
 
-The `links` check also invokes the byte-identical Publishing checker with
-`--verify-copy` for the schema, checker module, and GNN pin recorded in the
-[member contract](workflows/publishing.md). This runs through `archive`, `fast`,
-and `full` too; no additional gate arm or corpus is introduced.
+The `links` check invokes the recorded Publishing checker with `--verify-copy` for the schema, checker, and member-owned GNN pin in the [member contract](workflows/publishing.md). `archive`, `fast`, and `full` include it. This proves local digest agreement, not authenticated producer freshness or corpus identity coverage.
 
 ## Where the arms are measured
 
@@ -44,13 +41,7 @@ records one local sample per offline arm on the host that ran
 python .github/scripts/gate.py timings --include-gnn
 ```
 
-`--include-gnn` adds the `gnn` measurement and needs the pinned parser already
-importable in the measuring interpreter. `gnn` and `full` never appear in the
-table, because both need the pinned parser and the network; `--include-gnn`
-records `gnn` alone in the page's separate section, and `full` adds nothing a
-reader cannot get by adding the fast table to that number. The `tests` arm fails
-when the page stops listing every measured arm with its current command, so a
-new arm cannot land without refreshing it.
+`--include-gnn` adds a separate GNN measurement, requiring its actual selected parser/runtime and, for this empty-model archive, network access. Historical samples remain historical. New timings must come from the source-owned generator after inputs settle; a successful subset does not qualify a new full measurement.
 
 ## CI
 
@@ -91,33 +82,22 @@ arm gains a locked dependency set.
 | Revision | `8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1` |
 | Recorded | `2026-11-12` |
 
-`.github/GNN.md` records what the conformance arm parses. The arm validates the
-schema and repository identity, installs
-`generalized-notation-notation @ git+https://github.com/<repository>.git@<revision>`
-with `--no-deps` plus the runtime dependencies `defusedxml`, `psutil`, and
-`pyyaml`, then checks that the installed `gnn.__version__` equals the tag
-without its `v`. Parsing then covers every `*.gnn.md` sketch in the repository
-(full parse, syntax validation, type checking). The type-check verdict passes
-only when `validate_gnn_files` returns the literal `True`; its `2`
-(`SUCCESS_WITH_WARNINGS`, which covers invalid files and an empty model set) is
-a failure, as `.github/GNN.md` records. This archive carries none, so
-the arm validates the pinned upstream exemplar
-`input/gnn_files/basics/static_perception.md` at the pinned revision and prints
-a JSON receipt naming `"source": "pinned-exemplar"`.
+The conformance arm checks independently frozen reviewed bootstrap and complete manifest bytes before importing the unchanged pinned parser. Default installed mode requires matching PEP610 Git origin and complete package content. Explicit source mode uses the same authority with a deliberately selected `src/gnn` root, without claiming installed/VCS provenance. No failed-installed-to-source fallback exists.
+
+Parser/version/syntax/type-check calls and delayed imports remain guarded through final content/origin rechecks. Only literal `True` from `validate_gnn_files` passes. Sorted tracked sketches are selected; inventory failures refuse. This archive has none, so the complete arm fetches the pinned upstream exemplar and labels its model source separately from parser qualification.
 
 ### Running the GNN arm locally
 
-The pinned release declares Python `>=3.11,<3.15`; pip refuses to install it on
-a newer interpreter (`3.15.2 not in '<3.15,>=3.11'`). CI uses 3.12. Use a
-throwaway environment at a supported version so the arm does not modify your
-default interpreter:
+Use an already provisioned Python `>=3.11,<3.15` runtime (CI uses 3.12), and a fresh process per verdict:
 
 ```bash
-python3.12 -m venv ~/.cache/gnn-venv
-~/.cache/gnn-venv/bin/python .github/scripts/gate.py gnn --install
+python .github/scripts/gate.py gnn
+python .github/scripts/gate.py gnn --gnn-source-root /exact/checkout/src/gnn
+python .github/scripts/gate.py full --gnn-source-root /exact/checkout/src/gnn
+python .github/scripts/gate.py timings --include-gnn --gnn-source-root /exact/checkout/src/gnn
 ```
 
-Both steps need network access to PyPI and GitHub.
+`--gnn-source-root` is incompatible with `--install` and unrelated arms; relative paths are resolved before timing children change CWD. `--install` is an explicitly authorized separate installation, not automatic runtime selection. Installation and the empty-selection exemplar need network authority.
 
 ## Why no lint or type arm
 
@@ -136,5 +116,6 @@ repository's contract. If the scraper becomes an installable package, add a
 - `notebooks` checks JSON structure and output emptiness, not that a notebook
   runs; the PubMed notebook needs `pandas`, `biopython`, and network Entrez
   access, none of which this host or CI provides here.
-- `gnn` proves parser and pin conformance. With no committed sketch it says
-  nothing about a model of this repository's own.
+- Controlled CSV/text fixtures do not parse real PDFs or qualify the private corpus.
+- Controlled GNN fixtures do not qualify an installed parser; explicit source qualification is a separate, narrower origin claim.
+- With no tracked authored sketch, the upstream exemplar says nothing about an archive-specific model or scientific semantics.

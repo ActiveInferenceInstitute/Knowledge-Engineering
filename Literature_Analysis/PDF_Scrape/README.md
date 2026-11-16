@@ -4,13 +4,13 @@ Exploratory Python tooling that counts configured keywords in a local PDF corpus
 
 ## Inputs
 
-- `resc/params/keywords.csv` — 331 keyword rows under the `Kw` column. `dataImport.py` lowercases terms and removes spaces before counting.
+- `resc/params/keywords.csv` — 331 keyword rows under `Kw`. `dataImport.normalizeText()` lowercases and removes literal ASCII spaces and newline characters from keywords, full text, and abstracts. Each text is normalized once per document; matching remains nonoverlapping substring counting, not token-aware search.
 - `resc/params/fileInfo.csv` — 257 paper records with `COGSEC_ID`, `Title`, and `Abstract` columns. IDs are zero-padded to five digits.
 - `resc/pdfList/` — expected PDF directory. It is not committed to this repository.
 
 ## How it works
 
-`manager.py` loads every row from `fileInfo.csv`, prompts for an export ID through `streamingExport.py`, extracts PDF text, counts each keyword in full text and abstract, and writes `<ID>-Results.csv` plus `<ID>-Log.csv` in the current working directory. Result columns are generated as `ft_<keyword>` and `ab_<keyword>`.
+Importing `dataImport.py`, including through `manager.py`, reads both CWD-relative parameter CSVs and constructs keyword/document mappings; the manager also imports the PDF-reader dependency. Import alone does not prompt, extract PDFs, run a batch, or create exports. Running the manager initializes callsign outputs and writes full-text columns before abstract columns.
 
 Run from this directory so the existing relative paths resolve:
 
@@ -29,12 +29,14 @@ The scripts import a PDF reader compatible with the `pypdf` API, or PyPDF2 as a 
 python -m pip install pypdf
 ```
 
-`manager.py` also uses only Python standard-library functionality beyond the local modules. There is no requirements file or automated test suite in this archive.
+Beyond its PDF-reader dependency and local modules, the scraper uses the standard library. Controlled CSV/text regressions live in `.github/scripts/tests/`; they replace the PDF-extraction boundary and do not qualify a real PDF parser, private corpus, or scientific result. This archive has no dependency manifest or packaging configuration.
 
 ## Caveats
 
-- `streamingExport.py` resolves the export callsign lazily: importing the module is safe, and `python manager.py` prompts once for the callsign before writing output files.
-- Keyword normalization removes spaces and searches with substring counts. This can produce matches inside larger words; it is the historical behavior of the script, not a token-aware search.
-- `manager.py` catches all exceptions while processing a document and records the failure (with the exception message) in the log. Inspect the source and inputs when diagnosing a failure.
-- `utilCSV.py` is an empty placeholder and is not used by the current manager path.
-- `resc/pdfList/` and generated `*-Results.csv`/`*-Log.csv` files are intentionally not part of the committed archive.
+- Parameter CSV reads occur at import time and remain CWD-relative. Lazy export prompting does not make imports free of input I/O or dependency requirements.
+- Normalized-key insertion order and the result column/trailing-field layout are retained. Substrings can match inside larger words; tabs and punctuation are not broadly stripped.
+- `mrManager.run()` returns `BatchTotals(attempted, succeeded, failed, log_failures)`, with `attempted = succeeded + failed`. Processing or result-write errors fail that document while later documents continue. A failure-log error is additionally reported to stderr; either failure makes the CLI exit nonzero.
+- Failure logs are CSV records containing file ID, `failed`, and exception message. Use a CSV reader so quoted commas and embedded line breaks remain one field.
+- Every run truncates both callsign files before processing, including empty batches. Reusing a callsign discards its prior contents. Streaming writes are not transactional or retry/resume behavior.
+- For separately approved revival, prepare a separate workspace with its own `resc/params/` and `resc/pdfList/`, invoke this script by its full path, and choose a fresh callsign. Preserve historical inputs and exports. Other workspaces are not automatically covered by this repository's ignore rules.
+- `utilCSV.py` remains an unused empty placeholder. The uncommitted PDF corpus and generated scraper outputs remain outside the historical archive.
