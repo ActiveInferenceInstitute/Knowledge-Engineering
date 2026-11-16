@@ -19,7 +19,9 @@ or falls back from refused installed admission. Research artifacts are not chang
 
 from __future__ import annotations
 
+import hashlib
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -35,6 +37,7 @@ PIN_PATH = Path(".github") / "gnn-pin.json"
 PIN_SCHEMA = "gnn-importer-pin/v1"
 EXPECTED_REPOSITORY = "ActiveInferenceInstitute/Generalized_Notation_Notation"
 EXEMPLAR_PATH = "input/gnn_files/basics/static_perception.md"
+EXEMPLAR_SHA256 = "1ddd0fbde8155e2083d586a368503278373f26f6aae11dd4a2b4adfdf5ea7b8c"
 RUNTIME_DEPENDENCIES = ("defusedxml", "psutil", "pyyaml")
 TAG = re.compile(r"^v(\d+\.\d+\.\d+)$")
 REVISION = re.compile(r"^[0-9a-f]{40}$")
@@ -85,13 +88,30 @@ def install(pin: dict) -> None:
 
 
 def _exemplar_bytes(pin: dict) -> bytes:
-    """Download the pinned upstream exemplar."""
-    url = (
-        "https://raw.githubusercontent.com/"
-        f"{pin['repository']}/{pin['revision']}/{EXEMPLAR_PATH}"
-    )
-    with urllib.request.urlopen(url, timeout=FETCH_TIMEOUT) as response:
-        return response.read()
+    """Read the same immutable exemplar from explicit preparation or HTTPS."""
+    if (
+        pin.get("repository") != EXPECTED_REPOSITORY
+        or pin.get("revision") != gnn_runtime.REVISION
+    ):
+        raise ValueError("exemplar pin has no independently frozen content digest")
+    prepared = os.environ.get("GNN_PREPARED_EXEMPLAR")
+    if prepared is not None:
+        if not prepared:
+            raise ValueError("GNN_PREPARED_EXEMPLAR must name the prepared file")
+        path = Path(prepared)
+        if path.is_symlink() or not path.is_file():
+            raise ValueError("GNN_PREPARED_EXEMPLAR must be an ordinary existing file")
+        data = path.read_bytes()
+    else:
+        url = (
+            "https://raw.githubusercontent.com/"
+            f"{pin['repository']}/{pin['revision']}/{EXEMPLAR_PATH}"
+        )
+        with urllib.request.urlopen(url, timeout=FETCH_TIMEOUT) as response:
+            data = response.read()
+    if hashlib.sha256(data).hexdigest() != EXEMPLAR_SHA256:
+        raise ValueError("pinned exemplar content digest mismatch")
+    return data
 
 
 def _check_parses(sketch: Path) -> None:

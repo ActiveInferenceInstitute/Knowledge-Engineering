@@ -27,6 +27,25 @@ truthiness test would report an invalid model set as `"result": "verified"`;
 instead any other value exits non-zero and the refusal names the value the
 checker returned. Controlled fixtures also reject integer `1`, corrupted authority/content, cached or foreign modules, missing installed origin, and source drift across verdict execution. They do not establish installed-runtime provenance.
 
-The pinned release supports Python `>=3.11,<3.15`; CI uses 3.12. Explicit installation and empty-selection exemplar fetching need network authority. Already prepared source mode does not remove the exemplar's network prerequisite from the complete gate. See the [run guide](../docs/RUN_GUIDE.md#running-the-gnn-arm-locally).
+The pinned release supports Python `>=3.11,<3.15`; CI uses 3.12. Explicit installation and exemplar acquisition need separate authority. Source mode alone does not prepare the exemplar; without the explicit prepared selector below, an empty tracked set still needs the pinned HTTPS download. See the [run guide](../docs/RUN_GUIDE.md#running-the-gnn-arm-locally).
+
+For separately authorized offline qualification, prepare the authentic complete
+pinned Git project, its locked declared dependencies, and an installer-generated
+immutable VCS wheel cache in task-owned storage. Preserve the installer's real
+origin metadata; a source-only export, copied installed package, or rewritten
+`direct_url.json` is not a fresh installation. Bind the prepared artifacts in the
+native execution inputs, use a fresh supported target environment, and keep
+`gnn --install` as the actual gate command. Pip's ordinary offline/cache settings
+may consume those exact resources; setup itself is not a conformance verdict.
+
+`GNN_PREPARED_EXEMPLAR=/prepared/static_perception.md` explicitly separates
+acquisition of the unchanged upstream exemplar from the offline verdict. Its
+bytes must match SHA-256
+`1ddd0fbde8155e2083d586a368503278373f26f6aae11dd4a2b4adfdf5ea7b8c`
+at the pinned revision. Missing, empty, symlinked, or changed prepared inputs
+refuse without a network fallback. With no selector, the same pinned HTTPS
+download remains available and must match that digest. Tracked-model selection,
+fresh installed-origin/full-content admission, parse/syntax/literal-`True` type
+checks, and the `pinned-exemplar` receipt semantics are unchanged.
 
 A green parser result is not a model of this archive, dependency-lock qualification, or scientific evidence.
