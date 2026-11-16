@@ -40,10 +40,14 @@ class _Parsed:
     parse_errors: list[str] = []
 
 
-def _stub_modules(verdict: object, *, version: str = "5.0.3") -> dict[str, object]:
-    """Return ``sys.modules`` entries implementing the pinned parser surface."""
+def _stub_modules(verdict: object, *, version: str | None = None) -> dict[str, object]:
+    """Return ``sys.modules`` entries implementing the pinned parser surface.
+
+    The stub reports the version the pin declares unless a case overrides it, so
+    moving the pin does not also require editing every verdict case.
+    """
     gnn = types.ModuleType("gnn")
-    gnn.__version__ = version  # type: ignore[attr-defined]
+    gnn.__version__ = version if version is not None else str(PIN["tag"]).removeprefix("v")  # type: ignore[attr-defined]
 
     parsers = types.ModuleType("gnn.parsers")
     basic = types.ModuleType("gnn.parsers.basic")
