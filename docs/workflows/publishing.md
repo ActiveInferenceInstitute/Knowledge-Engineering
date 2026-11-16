@@ -28,7 +28,7 @@ schema, not mirrored in prose here. The existing GNN pin is also digest-bound.
 ```text
 record-identity.schema.json  84f6c4df6efc3f15f0d8a9a05c8aabd0cbdc08b0f4feac5fcc8ae860a81e306b
 identity.py  847328ff163fa90c869495164869caf4e83313748e8a444dbab8d4e459b11074
-gnn-pin.json  eb83f7f1b73eb31e116bd05b1f457dd07e6874a2a4ba0e9e95e5bc91f094cd55
+gnn-pin.json  4e4a455875c7afdf21312d4de1bce6d6695c48dea01d90d6132e2545b14ba276
 ```
 
 The `links` arm invokes the canonical module's `--verify-copy` command for every

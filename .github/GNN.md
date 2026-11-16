@@ -6,8 +6,8 @@ pinned parser first). It is the same command the CI job
 see [`docs/RUN_GUIDE.md`](../docs/RUN_GUIDE.md) for every arm.
 
 The conformance arm reads `.github/gnn-pin.json` (`gnn-importer-pin/v1`), which
-pins `ActiveInferenceInstitute/Generalized_Notation_Notation` at tag `v5.0.3`,
-revision `8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1` (recorded `2026-11-12`).
+pins `ActiveInferenceInstitute/Generalized_Notation_Notation` at tag `v5.1.0`,
+revision `75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf` (recorded `2026-11-16`).
 
 What it validates, in order:
 
