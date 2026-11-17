@@ -11,10 +11,10 @@
 - [`scripts/archive_checks.py`](scripts/archive_checks.py) — the dependency-free
   archive checks (relative Markdown links, tracked-Python compilation, notebook
   JSON and committed outputs, tracked Jupyter checkpoints).
-- [`scripts/gnn_conformance.py`](scripts/gnn_conformance.py) — pin validation,
-  pinned-parser install, and sketch/exemplar conformance.
-- [`scripts/tests/test_gate.py`](scripts/tests/test_gate.py) — the gate's own
-  tests, run by the `tests` arm.
+- [`scripts/gnn_conformance.py`](scripts/gnn_conformance.py) — pin validation, guarded parser execution, and tracked-sketch/exemplar conformance.
+- [`scripts/gnn_runtime.py`](scripts/gnn_runtime.py) — pre-import reviewed-bootstrap/full-manifest admission and explicit installed/source lifetime.
+- [`gnn/gnn_bootstrap.py`](gnn/gnn_bootstrap.py), [`gnn/v5.1.0-source-manifest.json`](gnn/v5.1.0-source-manifest.json) — exact independently approved producer artifacts, not a local validator fork.
+- [`scripts/tests/`](scripts/tests/) — dependency-free gate contracts and controlled CSV/text scraper regressions. PDF fixtures replace extraction; controlled parser fixtures do not qualify installed provenance.
 - [`dependabot.yml`](dependabot.yml) — dependency update configuration.
 - [`gnn-pin.json`](gnn-pin.json) — the `gnn-importer-pin/v1` pin used by the
   conformance arm: repository, tag `v5.1.0`, revision

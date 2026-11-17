@@ -62,10 +62,10 @@
 | `notebooks` | `python .github/scripts/gate.py notebooks` | `.` | Check notebook JSON and absence of outputs. |
 | `checkpoints` | `python .github/scripts/gate.py checkpoints` | `.` | Reject tracked Jupyter checkpoints. |
 | `archive` | `python .github/scripts/gate.py archive` | `.` | Run the archive checks and Publishing digest checks. |
-| `tests` | `python .github/scripts/gate.py tests` | `.` | Run dependency-free gate tests. |
-| `gnn` | `python .github/scripts/gate.py gnn` | `.` | Check GNN conformance using .github/gnn-pin.json. |
+| `tests` | `python .github/scripts/gate.py tests` | `.` | Run dependency-free gate contracts and controlled scraper regressions. |
+| `gnn` | `python .github/scripts/gate.py gnn` | `.` | Verify the pinned parser's installed origin/content and sketch or exemplar conformance. |
 | `fast` | `python .github/scripts/gate.py fast` | `.` | Run archive checks and tests; no manuscript command exists. |
-| `full` | `python .github/scripts/gate.py full` | `.` | Run fast and GNN conformance. |
+| `full` | `python .github/scripts/gate.py full` | `.` | Run fast checks, then the same qualified GNN conformance. |
 | `timings` | `python .github/scripts/gate.py timings` | `.` | Measure offline arms and regenerate docs/gate-timings.md. |
 
 ## Validation

@@ -32,10 +32,7 @@ commands:
 python .github/scripts/gate.py fast
 ```
 
-Add the GNN arm (`python .github/scripts/gate.py gnn --install`) when you change
-`.github/gnn-pin.json` or the conformance script. Arms and their measured wall
-times are in [docs/RUN_GUIDE.md](docs/RUN_GUIDE.md) and
-[docs/gate-timings.md](docs/gate-timings.md).
+Run the GNN arm when changing the pin or conformance source. Plain `gnn` verifies an already prepared installed runtime; `--install` explicitly permits installation. `--gnn-source-root /exact/checkout/src/gnn` chooses qualified source, never installed fallback. Each verdict needs a fresh process. See the [GNN guide](.github/GNN.md) and [run guide](docs/RUN_GUIDE.md); historical [timings](docs/gate-timings.md) are not fresh acceptance.
 
 Describe the files changed, the verification performed, and any remaining limitations. Keep data provenance clear: include source, query date, filters, and transformations for newly generated exports where known.
 

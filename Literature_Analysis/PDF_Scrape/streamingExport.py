@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from csv import writer
+
 from dataImport import outputFileHeader
 
 # Export parameters are resolved lazily on first use so that importing this
@@ -32,22 +34,21 @@ def _ensureConfigured():
 # instantiatefiles instantiates log and export files
 def instantiateFiles():
     _ensureConfigured()
-    f = open(ResultsExportFile, "w")
-    f.write(outputFileHeader)
-    f.close()
-    f = open(LogExportFile, "w")
-    f.close()
+    with open(ResultsExportFile, "w", encoding="utf-8", newline="") as f:
+        f.write(outputFileHeader)
+    with open(LogExportFile, "w", encoding="utf-8", newline=""):
+        pass
 
 
 # appendToResultsCsv appends a row to results
 def appendToResultsCsv(row):
     _ensureConfigured()
-    with open(ResultsExportFile, 'a') as f:
+    with open(ResultsExportFile, "a", encoding="utf-8", newline="") as f:
         f.write(row)
 
 
-# appendToLogCsv appends a row top log
+# appendToLogCsv appends one structured failure record to the log.
 def appendToLogCsv(row):
     _ensureConfigured()
-    with open(LogExportFile, 'a') as f:
-        f.write(row)
+    with open(LogExportFile, "a", encoding="utf-8", newline="") as f:
+        writer(f).writerow(row)

@@ -12,7 +12,7 @@ arm                                  what it checks
 ``notebooks``                        tracked notebooks are output-free JSON
 ``checkpoints``                      no Jupyter checkpoint file is tracked
 ``archive``                          the four archive arms over one file listing
-``tests``                            the gate's own unit tests
+``tests``                            dependency-free gate contracts and controlled scraper regressions
 ``gnn``                              pinned GNN parser and sketch/exemplar conformance
 ``fast`` (default)                   ``archive`` + ``tests``; what CI's docs job runs
 ``full``                             ``fast`` + ``gnn``; the whole gate
@@ -58,7 +58,7 @@ DESCRIPTIONS = {
     "notebooks": "tracked notebooks are valid JSON with no committed outputs",
     "checkpoints": "no Jupyter checkpoint file is tracked",
     "archive": "all four archive checks over one `git ls-files` read",
-    "tests": "the gate's own dependency-free unit tests",
+    "tests": "dependency-free gate contracts and controlled scraper regressions",
     "gnn": "pinned GNN parser, sketch parsing, and type checking",
     "fast": "archive checks plus tests; the default arm and CI's docs job",
     "full": "the fast arm plus the pinned GNN conformance arm",
@@ -136,8 +136,10 @@ def arm_tests() -> int:
     return 0
 
 
-def run_arm(arm: str, *, install: bool = False) -> int:
-    """Run one arm and return its exit status."""
+def run_arm(
+    arm: str, *, install: bool = False, source_root: Path | None = None
+) -> int:
+    """Run one arm with explicit GNN source selection when requested."""
     if arm in ARCHIVE_ARMS:
         return arm_archive((arm,), arm)
     if arm == "archive":
@@ -145,20 +147,27 @@ def run_arm(arm: str, *, install: bool = False) -> int:
     if arm == "tests":
         return arm_tests()
     if arm == "gnn":
-        return gnn_conformance.run(ROOT, install_first=install)
+        return gnn_conformance.run(
+            ROOT, install_first=install, source_root=source_root
+        )
     if arm == "fast":
         return 0 if arm_archive(ARCHIVE_ARMS, "archive") == 0 and arm_tests() == 0 else 1
     if arm == "full":
         if arm_archive(ARCHIVE_ARMS, "archive") != 0 or arm_tests() != 0:
             return 1
-        return gnn_conformance.run(ROOT, install_first=install)
+        return gnn_conformance.run(
+            ROOT, install_first=install, source_root=source_root
+        )
     raise ValueError(f"unknown arm: {arm}")
 
 
-def _measure(arm: str) -> float:
+def _measure(arm: str, *, source_root: Path | None = None) -> float:
+    command = [sys.executable, str(Path(__file__).resolve()), arm]
+    if source_root is not None:
+        command.extend(("--gnn-source-root", str(source_root.resolve())))
     started = time.perf_counter()
     result = subprocess.run(
-        [sys.executable, str(Path(__file__).resolve()), arm],
+        command,
         cwd=ROOT,
         capture_output=True,
         text=True,
@@ -176,8 +185,13 @@ def timings_arms() -> tuple[str, ...]:
     return tuple(arm for arm in ARM_ORDER if arm not in {"gnn", "full", "timings"})
 
 
-def render_timings(rows: list[tuple[str, float]], gnn_seconds: float | None) -> str:
-    """Render the generated timings page."""
+def render_timings(
+    rows: list[tuple[str, float]],
+    gnn_seconds: float | None,
+    *,
+    source_mode: bool = False,
+) -> str:
+    """Render timings without conflating source and installed qualification."""
     implementation = platform.python_implementation()
     version = platform.python_version()
     lines = [
@@ -200,26 +214,29 @@ def render_timings(rows: list[tuple[str, float]], gnn_seconds: float | None) -> 
         "",
         "## Interpreter-specific arms",
         "",
-        "`gnn` is measured separately because it installs third-party packages "
-        "and reads the network, so its duration depends on the package cache "
-        "and mirror.",
+        "`gnn` is measured separately because it requires independently "
+        "qualified parser source and runtime dependencies, and fetches the "
+        "pinned exemplar when no repository sketch is tracked.",
     ]
     if gnn_seconds is None:
         lines.append(
-            "It was not measured for this page: the pinned parser was not "
-            "importable in the measuring interpreter."
+            "It was not measured for this page; no GNN execution qualification "
+            "was recorded by this measurement."
         )
     else:
+        mode = "explicit source" if source_mode else "installed"
         lines.append(
-            f"With the pinned parser already installed it took {gnn_seconds:.2f} s "
-            "for one conformance check, excluding the install step; the install "
-            "step's duration depends on pip's cache. Refresh this page from an "
-            "interpreter that has the parser installed to record it again."
+            f"With {mode} admission it took {gnn_seconds:.2f} s for one "
+            "conformance check, excluding installation. Explicit source mode is "
+            "not installed-origin proof. The install step, when requested "
+            "separately, depends on pip's cache and network."
         )
     return "\n".join(lines) + "\n"
 
 
-def write_timings(output: Path, *, include_gnn: bool) -> int:
+def write_timings(
+    output: Path, *, include_gnn: bool, source_root: Path | None = None
+) -> int:
     arms = timings_arms()
     # The `tests` arm asserts that this page lists every measured arm, and `fast`
     # runs it, so a first generation would otherwise measure itself into a
@@ -232,8 +249,10 @@ def write_timings(output: Path, *, include_gnn: bool) -> int:
     )
     try:
         rows = [(arm, _measure(arm)) for arm in arms]
-        gnn_seconds: float | None = _measure("gnn") if include_gnn else None
-        document = render_timings(rows, gnn_seconds)
+        gnn_seconds = _measure("gnn", source_root=source_root) if include_gnn else None
+        document = render_timings(
+            rows, gnn_seconds, source_mode=source_root is not None
+        )
     except BaseException:
         if previous is None:
             output.unlink(missing_ok=True)
@@ -264,6 +283,14 @@ def parsers() -> argparse.ArgumentParser:
         help="install the pinned GNN parser before the gnn or full arm",
     )
     parser.add_argument(
+        "--gnn-source-root",
+        type=Path,
+        help=(
+            "explicit exact-revision src/gnn package directory instead of an "
+            "installed distribution; incompatible with --install"
+        ),
+    )
+    parser.add_argument(
         "--output",
         type=Path,
         default=ROOT / TIMINGS_DOC,
@@ -291,9 +318,31 @@ def main(argv: list[str] | None = None) -> int:
     if options.install and options.arm not in {"gnn", "full"}:
         print("gate.py: --install is only valid for the gnn and full arms", file=sys.stderr)
         return 2
+    if options.gnn_source_root is not None:
+        if options.install:
+            print(
+                "gate.py: --gnn-source-root is incompatible with --install",
+                file=sys.stderr,
+            )
+            return 2
+        if options.arm not in {"gnn", "full"} and not (
+            options.arm == "timings" and options.include_gnn
+        ):
+            print(
+                "gate.py: --gnn-source-root requires gnn, full, or "
+                "timings --include-gnn",
+                file=sys.stderr,
+            )
+            return 2
     if options.arm == "timings":
-        return write_timings(options.output, include_gnn=options.include_gnn)
-    return run_arm(options.arm, install=options.install)
+        return write_timings(
+            options.output,
+            include_gnn=options.include_gnn,
+            source_root=options.gnn_source_root,
+        )
+    return run_arm(
+        options.arm, install=options.install, source_root=options.gnn_source_root
+    )
 
 
 if __name__ == "__main__":

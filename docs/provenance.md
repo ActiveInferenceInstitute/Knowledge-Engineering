@@ -28,7 +28,7 @@ Outputs of the PubMed query notebook (authored by Bleu Knight, February 2022; co
 | `FEP_ActInf.csv` | merged export: abstract, authors, num_authors, first_author, title, DOI | 331 rows |
 | `pubmed_230101.dtd` | PubMed XML DTD snapshot | — |
 
-Caveats: the notebook contains repeated author-unpacking cells and assumes at least 13 author positions in its intermediate DataFrame; it is a historical exploratory artifact, not a maintained library. NCBI results are time-dependent.
+Caveats: preserved exploratory source has incomplete structured-abstract extraction, a fourth/tenth-author branch defect, thirteen-position truncation/narrow-frame assumptions, derived count limitations, unguarded missing first-author matches, a six-column final schema, and live/frozen mixing. Its export can overwrite the committed CSV. These risks do not prove particular historical rows were affected. See the [complete preservation warnings](../Literature_Analysis/Pubmed_to_Coda/README.md). Snapshot counts remain dated inventory.
 
 ## PDF_Scrape
 

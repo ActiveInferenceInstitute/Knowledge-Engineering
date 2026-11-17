@@ -32,11 +32,7 @@ must pass before publishing:
 python .github/scripts/gate.py fast
 ```
 
-`fast` runs the four archive checks over one `git ls-files` read (relative
-Markdown links resolve, tracked Python compiles, notebooks are output-free JSON,
-no Jupyter checkpoint is tracked) plus the gate's own tests. CI calls exactly
-this command, and separately
-`python .github/scripts/gate.py gnn --install` for the pinned GNN conformance.
+`fast` runs archive checks over tracked inputs plus dependency-free gate contracts and controlled scraper regressions. CI calls this command and separately `python .github/scripts/gate.py gnn --install`. Plain `gnn` requires qualified installed origin/content; `--gnn-source-root /exact/checkout/src/gnn` explicitly chooses narrower source proof, never fallback. Installation requires separate authority. See the [GNN guide](.github/GNN.md).
 Arms, job keys, the pin, and measured wall times are in
 [`docs/RUN_GUIDE.md`](docs/RUN_GUIDE.md). For Python edits, also run
 `python -m py_compile` on changed scripts. For notebook edits, verify JSON

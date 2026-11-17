@@ -3,8 +3,7 @@
 # separate body, abstract, and citations
 
 from pdfReader import extractPDFtext
-from dataImport import KwList
-from dataImport import FileInfoList
+from dataImport import KwList, normalizeText
 
 # kwResults is a container for results of keyword search of a doc
 class kwResults:
@@ -34,16 +33,14 @@ class docResults:
     def __init__(self,doc):
         self.doc = doc # doc  class - dataImport.docImport 
         self.kws = kwResults() # load up KwList
-        self.fulltext = extractPDFtext(self.doc.filePath).replace("\n", "") # extract pdf text and scrub new-lines
-        # Additional removal of spaces added after it was found some Pdf text extractions result in no spaces,
-        # this creates consistency across all Pdfs, given that the risk of word combination resulting in false positives
-        # on keywords is minimal relative to the risk of false negatives due to lack of spaces in text extraction
-        self.fulltext = self.fulltext.replace(" ", "")
+        # Flatten both sources once, using the same normalization as keywords.
+        self.fulltext = normalizeText(extractPDFtext(self.doc.filePath))
+        self.abstract = normalizeText(self.doc.abstract)
         self.countKws()
     def countKws(self):
         for kw in KwList.keys():
-            self.kws.addFullTextCount(kw,(self.fulltext.lower().count(kw)))
-            self.kws.addAbstractCount(kw,(self.doc.abstract.lower().count(kw)))
+            self.kws.addFullTextCount(kw, self.fulltext.count(kw))
+            self.kws.addAbstractCount(kw, self.abstract.count(kw))
     def toCSV(self):
         row = self.doc.fileId + ","
         row += self.kws.toCSV()

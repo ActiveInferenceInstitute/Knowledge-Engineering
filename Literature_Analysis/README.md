@@ -23,9 +23,7 @@ overlaps.
 - `PDF_Scrape/resc/params/keywords.csv` and
   `Ontology_Snapshot/Ontology_TermsOnly.csv` share 314 terms verbatim; the
   keyword list extends the ontology terms with abstract-scope variants.
-- `Pubmed_to_Coda/FEP_ActInf.csv` is the only generated dataset in the folder;
-  it derives from the notebook's Entrez queries plus the two committed ID/DOI
-  inputs.
+- `Pubmed_to_Coda/FEP_ActInf.csv` is a committed historical export, not a safely reproducible current database. Live responses and frozen identifiers are mixed, with known extraction/join limitations. Read the [preservation warnings](Pubmed_to_Coda/README.md); do not overwrite it.
 
 ## Run the tooling
 
@@ -40,9 +38,7 @@ python manager.py
 jupyter notebook Literature_Analysis/Pubmed_to_Coda/Pubmed_Query.ipynb
 ```
 
-The notebook run needs an `Entrez.email` value for NCBI, and its results change
-over time. See [the quickstart](../docs/quickstart.md) for the full setup and
-[data provenance](../docs/provenance.md) for per-file details and caveats.
+The notebook command opens historical source for inspection, not execution of every cell. Its export can overwrite the committed CSV; dependencies and an NCBI email do not settle extraction/cohort limitations. Follow the [area warnings](Pubmed_to_Coda/README.md), [quickstart](../docs/quickstart.md), and [provenance guide](../docs/provenance.md).
 
 ## Preservation boundary
 
