@@ -35,9 +35,9 @@ This is an archive of research inputs and exploratory analysis artifacts rather 
 
 The repository has no build step. Start with the area README files above, then inspect the CSV, spreadsheet, JSON, PNG, and notebook artifacts directly.
 
-### Run the PubMed notebook
+### Inspect the historical PubMed notebook
 
-The notebook uses `pandas` and Biopython's `Bio.Entrez` client. Open `Literature_Analysis/Pubmed_to_Coda/Pubmed_Query.ipynb` in Jupyter, replace the example `Entrez.email` value with an email address for your NCBI requests, and execute the cells in order. See the [Pubmed_to_Coda README](Literature_Analysis/Pubmed_to_Coda/README.md) for inputs and outputs.
+Open the notebook only for inspection until the research owner selects a revival cohort and non-overwriting output. Its abstract/author/join limitations and relative export can affect a rerun or overwrite historical `FEP_ActInf.csv`; read the [complete preservation warnings](Literature_Analysis/Pubmed_to_Coda/README.md).
 
 ### Run PDF keyword extraction
 
@@ -45,13 +45,13 @@ The PDF scraper expects a local PDF corpus at `Literature_Analysis/PDF_Scrape/re
 
 ### Verify the repository
 
-One gate script, runnable arm by arm. The default `fast` arm is dependency-free. It fails when a relative Markdown link does not resolve, a tracked Python file does not compile, a notebook is invalid JSON or carries committed cell outputs, a Jupyter checkpoint file is tracked, or the gate's own tests fail:
+The default `fast` arm combines archive checks, recorded Publishing-copy digest agreement, dependency-free gate contracts, and controlled scraper regressions. It checks relative Markdown targets, tracked Python syntax, output-free notebook JSON, and tracked checkpoint exclusion. This describes configured behavior, not a current full-gate or scientific-validation receipt:
 
 ```bash
 python .github/scripts/gate.py fast
 ```
 
-List every arm with `python .github/scripts/gate.py --list`; the network-backed `gnn` conformance arm and the measured wall time for each arm are documented in [docs/RUN_GUIDE.md](docs/RUN_GUIDE.md) and [docs/gate-timings.md](docs/gate-timings.md).
+List arms with `python .github/scripts/gate.py --list`. Plain `gnn` verifies an already prepared installed parser; `--install` explicitly requests installation, while `--gnn-source-root /exact/checkout/src/gnn` deliberately selects narrower source qualification, never fallback. See the [GNN guide](.github/GNN.md), [run guide](docs/RUN_GUIDE.md), and historical [timing page](docs/gate-timings.md).
 
 ## Documentation
 
@@ -100,7 +100,7 @@ See [`CONTRIBUTING.md`](CONTRIBUTING.md). In particular, do not commit credentia
 
 ## Audit trail
 
-The current documentation review is recorded in [`REVIEW_LOG_2026-08-02.md`](REVIEW_LOG_2026-08-02.md), with outstanding work in [`TO-DO.md`](TO-DO.md).
+The historical documentation review is recorded in [`REVIEW_LOG_2026-08-02.md`](REVIEW_LOG_2026-08-02.md); current decisions and recorded evidence are in [`TO-DO.md`](TO-DO.md). The historical review is not a current gate receipt.
 
 ## InstituteOS sidecar
 
