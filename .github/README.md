@@ -17,8 +17,8 @@
   tests, run by the `tests` arm.
 - [`dependabot.yml`](dependabot.yml) — dependency update configuration.
 - [`gnn-pin.json`](gnn-pin.json) — the `gnn-importer-pin/v1` pin used by the
-  conformance arm: repository, tag `v5.0.3`, revision
-  `8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1`, recorded `2026-11-12`.
+  conformance arm: repository, tag `v5.1.0`, revision
+  `75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf`, recorded `2026-11-16`.
 - [`GNN.md`](GNN.md) — what the pinned GNN conformance arm parses.
 
 Arms, job commands, and measured wall times are documented in

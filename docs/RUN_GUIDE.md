@@ -87,9 +87,9 @@ arm gains a locked dependency set.
 | Pin file | `.github/gnn-pin.json` |
 | Schema | `gnn-importer-pin/v1` |
 | Repository | `ActiveInferenceInstitute/Generalized_Notation_Notation` |
-| Tag | `v5.0.3` |
-| Revision | `8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1` |
-| Recorded | `2026-11-12` |
+| Tag | `v5.1.0` |
+| Revision | `75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf` |
+| Recorded | `2026-11-16` |
 
 `.github/GNN.md` records what the conformance arm parses. The arm validates the
 schema and repository identity, installs
