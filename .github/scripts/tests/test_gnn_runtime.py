@@ -555,7 +555,8 @@ class GuardedCallerTests(unittest.TestCase):
             self.assertIn("manifest-digest-mismatch", stderr)
             installer.assert_not_called()
             self.manifest_path.write_bytes(self.manifest_bytes)
-            pin = {**PIN, "tag": "v5.1.0", "revision": "75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf"}
+            # A valid historical release is not this checkout's approved pin.
+            pin = {**PIN, "tag": "v5.0.3", "revision": "8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1"}
             (self.root / gnn_conformance.PIN_PATH).write_text(json.dumps(pin), encoding="utf-8")
             code, stdout, stderr = self._run(["gnn", "--install"])
             self.assertNotEqual(code, 0)
