@@ -37,7 +37,7 @@ place. Generated pages are marked as such and are refreshed by a script.
 
 ## Continuous integration
 
-- [.github/README.md](../.github/README.md) — workflow, gate scripts, Dependabot, pin file.
+- [.github/WORKFLOWS.md](../.github/WORKFLOWS.md) — workflow, gate scripts, Dependabot, pin file.
 - [.github/GNN.md](../.github/GNN.md) — what the pinned GNN conformance arm validates.
 - [.github/gnn-pin.json](../.github/gnn-pin.json) — the `gnn-importer-pin/v1` pin.
 
