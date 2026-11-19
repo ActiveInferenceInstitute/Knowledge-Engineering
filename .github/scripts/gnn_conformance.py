@@ -120,7 +120,9 @@ def _check_parses(sketch: Path) -> None:
     parsed = parse_gnn_formal(sketch)
     if parsed is None or getattr(parsed, "parse_errors", None):
         raise SystemExit(f"{sketch} did not parse cleanly")
-    valid, errors = validate_gnn_syntax(sketch.read_text(encoding="utf-8"))
+    valid, errors = validate_gnn_syntax(
+        sketch.read_text(encoding="utf-8"), is_content=True
+    )
     if not valid:
         raise SystemExit(f"{sketch} syntax errors: {errors!r}")
 

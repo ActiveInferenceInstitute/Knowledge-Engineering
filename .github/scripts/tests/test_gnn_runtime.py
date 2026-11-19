@@ -175,8 +175,8 @@ class GuardedCallerTests(unittest.TestCase):
                 "def parse_gnn_formal(path):\n"
                 f"    Path({str(self.parse_marker)!r}).write_text(Path(path).read_text(encoding='utf-8'), encoding='utf-8')\n"
                 "    return SimpleNamespace(parse_errors=[])\n"
-                "def validate_gnn_syntax(text):\n"
-                "    return True, []\n"
+                "def validate_gnn_syntax(text, *, is_content=False):\n"
+                "    return is_content, []\n"
             ).encode("utf-8"),
             "type_checker.py": (
                 "class GNNTypeChecker:\n"
